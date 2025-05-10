@@ -12,7 +12,7 @@ router.get("/", async function (req, res, next) {
   try {
     const employees = await getEmployees();
     res.json(employees);
-    res.send("Hello World!!!");
+    res.send("Hello World");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
