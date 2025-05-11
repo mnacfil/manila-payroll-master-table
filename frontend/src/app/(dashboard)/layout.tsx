@@ -9,9 +9,12 @@ const LARGE_WIDTH = 1024;
 const DashboardLayout = ({ children }: Children) => {
   const [open, setOpen] = useState(true);
   const [visible, setVisible] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(
-    window.innerWidth >= LARGE_WIDTH
-  );
+  const [isLargeScreen, setIsLargeScreen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= LARGE_WIDTH;
+    }
+    return true;
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,7 +48,9 @@ const DashboardLayout = ({ children }: Children) => {
               Apps
             </span>
           </div>
-          <main className="h-full">{children}</main>
+          <main className="h-full container py-8 mx-auto max-w-7xl">
+            {children}
+          </main>
         </div>
       </div>
       <div className="card flex justify-content-center">
