@@ -9,3 +9,16 @@
 ::1 - Sat May 10 2025 19:27:17 GMT+0800 (Philippine Standard Time) - GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1 404 35 - 2 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
 ::1 - Sat May 10 2025 19:27:35 GMT+0800 (Philippine Standard Time) - GET /users HTTP/1.1 500 129 - 12 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
 ::1 - Sat May 10 2025 19:27:35 GMT+0800 (Philippine Standard Time) - GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1 404 35 - 1 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+::1 - Mon May 12 2025 13:00:11 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 - - - - - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 13:00:34 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 - - - - - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 13:00:35 GMT+0800 (Philippine Standard Time) - GET /users HTTP/1.1 500 129 - 21 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 13:39:31 GMT+0800 (Philippine Standard Time) - GET /users HTTP/1.1 500 129 - 9 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:12:07 GMT+0800 (Philippine Standard Time) - GET /users HTTP/1.1 404 35 - 3 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:12:15 GMT+0800 (Philippine Standard Time) - GET /api/v1users HTTP/1.1 404 35 - 4 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:12:21 GMT+0800 (Philippine Standard Time) - GET /api/v1/users HTTP/1.1 500 45 - 4 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:25:23 GMT+0800 (Philippine Standard Time) - GET /api/v1/userssdasd HTTP/1.1 404 35 - 4 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:25:31 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 129 - 10 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:26:28 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 404 35 - 4 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:26:33 GMT+0800 (Philippine Standard Time) - GET /api/v1 HTTP/1.1 404 35 - 5 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:26:39 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 129 - 11 - PostmanRuntime/7.43.4
+::1 - Mon May 12 2025 14:27:05 GMT+0800 (Philippine Standard Time) - POST /api/v1/employees HTTP/1.1 404 35 - 3 - PostmanRuntime/7.43.4

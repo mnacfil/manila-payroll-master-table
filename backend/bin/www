@@ -6,9 +6,9 @@
 var portfinder = require("portfinder");
 var cluster = require("cluster");
 // comment below line to start cluster with maximum workers
-var workers = 1;
+// var workers = 1;
 // uncomment below line to start cluster with maximum workers
-// var workers = process.env.WORKERS || require('os').cpus().length;
+var workers = process.env.WORKERS || require("os").cpus().length;
 var port = 3000;
 var portSpan = 999;
 
