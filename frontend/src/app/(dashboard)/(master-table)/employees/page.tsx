@@ -1,19 +1,17 @@
 "use client";
-import EditEmployeeDialog from "@/components/features/employees/EditEmployeeDialog";
+import AddEmployeeDialog from "@/components/features/employees/AddEmployeeDialog";
 import EmployeesContent from "@/components/features/employees/EmployeesContent";
 import EmployeesFilters from "@/components/features/employees/EmployeesFilters";
-import Alert from "@/components/ui/alert";
 import { Button } from "primereact/button";
 import { useState } from "react";
 
 const EmployeesPage = () => {
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
   return (
     <>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold">Employees</h1>
-        <Button>
+        <Button onClick={() => setOpenAddDialog(true)}>
           <i className="pi pi-plus mr-2" style={{ fontSize: "0.875rem" }}></i>
           <span className="font-medium">Add Employee</span>
         </Button>
@@ -22,21 +20,11 @@ const EmployeesPage = () => {
       <div className="mt-6">
         <EmployeesContent />
       </div>
-      <EditEmployeeDialog
-        open={openEditDialog}
+      <AddEmployeeDialog
+        open={openAddDialog}
         onClose={() => {
-          setOpenEditDialog(false);
+          setOpenAddDialog(false);
         }}
-      />
-      <Alert
-        visible={openDeleteAlert}
-        title="Are you sure?"
-        description="This action cannot be undone"
-        onHide={() => {
-          setOpenDeleteAlert(false);
-        }}
-        onCancel={() => {}}
-        onContinue={() => {}}
       />
     </>
   );
