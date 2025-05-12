@@ -1,6 +1,5 @@
 var express = require("express");
 var employeeService = require("../services/employeeService");
-const { error } = require("winston");
 var router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -37,6 +36,9 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    if (!req.body.first_name || !req.body.last_name || !req.body.email) {
+      res.status(400).json({ error: "Please fill up all required fields" });
+    }
     const result = await employeeService.createEmployee(req.body);
     res.status(201).json(result);
   } catch (error) {
