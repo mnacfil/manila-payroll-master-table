@@ -7,16 +7,17 @@ import { useState } from "react";
 type Props = {
   data: any[];
   columns: ColumnProps[];
+  dataKey: string;
   onSelected?: (list: any[]) => void;
 };
 
-const Table = ({ columns, data, onSelected }: Props) => {
+const Table = ({ columns, data, dataKey, onSelected }: Props) => {
   const [selected, setSelected] = useState([]);
   return (
     <DataTable
       value={data}
       showGridlines
-      dataKey={"id"}
+      dataKey={dataKey}
       selectionMode={"checkbox"}
       selection={selected}
       emptyMessage={"No data"}
@@ -36,7 +37,7 @@ const Table = ({ columns, data, onSelected }: Props) => {
       ></Column>
       {columns.map((item, i) => (
         <Column
-          key={data[i].id}
+          key={item.field}
           field={item.field}
           header={item.header}
           body={item.body}

@@ -6,109 +6,56 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { useRef, useState } from "react";
 import EditEmployeeDialog from "./EditEmployeeDialog";
 import Alert from "@/components/ui/alert";
-
-// Todo - Modify the any type to corresponding data type
-
-const employees = [
-  {
-    id: "1",
-    name: "Melvin",
-    code: "123",
-    category: "cst",
-    quantity: 123,
-  },
-  {
-    id: "2",
-    name: "John",
-    code: "23131312",
-    category: "cot",
-    quantity: 1,
-  },
-  {
-    id: "3",
-    name: "Cal",
-    code: "132asd",
-    category: "MST",
-    quantity: 44,
-  },
-  {
-    id: "4",
-    name: "Sen",
-    code: "ada123123",
-    category: "people",
-    quantity: 69,
-  },
-  {
-    id: "5",
-    name: "Jor",
-    code: "dasd23232",
-    category: "cst",
-    quantity: 22,
-  },
-  {
-    id: "6",
-    name: "Kobe",
-    code: "123",
-    category: "cst",
-    quantity: 123,
-  },
-  {
-    id: "7",
-    name: "Jordan",
-    code: "23131312",
-    category: "cot",
-    quantity: 1,
-  },
-  {
-    id: "8",
-    name: "Lebron",
-    code: "132asd",
-    category: "MST",
-    quantity: 44,
-  },
-  {
-    id: "9",
-    name: "Steph",
-    code: "ada123123",
-    category: "people",
-    quantity: 69,
-  },
-  {
-    id: "10",
-    name: "Shaq",
-    code: "dasd23232",
-    category: "cst",
-    quantity: 22,
-  },
-];
+import { useEmployees } from "@/hooks/employees/useEmployees";
+import { Tag } from "primereact/tag";
+import { formatDate } from "@/lib/utils";
+import { Employee } from "@/api/employees/types";
 
 const EmployeesContent = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
-  const [selected, setSelected] = useState<any | null>(null);
-  const [selectedList, setSelectedList] = useState<any[]>([]);
+  const [selected, setSelected] = useState<Employee | null>(null);
+  const [selectedList, setSelectedList] = useState<Employee[]>([]);
+
+  const { isError, isPending, employees } = useEmployees();
 
   const columns: ColumnProps[] = [
     {
-      field: "name",
-      header: "Name",
+      field: "first_name",
+      header: "First Name",
     },
     {
-      field: "code",
-      header: "Code",
+      field: "last_name",
+      header: "Last Name",
     },
     {
-      field: "category",
-      header: "Category",
+      field: "date_hired",
+      header: "Date Hired",
+      body: (rowData: Employee) => {
+        return <p>{formatDate(rowData?.created_at)}</p>;
+      },
     },
     {
-      field: "quantity",
-      header: "Quantity",
+      field: "salary",
+      header: "Salary",
+    },
+    {
+      field: "active",
+      header: "Status",
+      align: "center",
+      body: (rowData: Employee) => {
+        return (
+          <Tag
+            severity={rowData?.active === 1 ? "success" : "danger"}
+            value={rowData?.active === 1 ? "Active" : "Terminated"}
+          ></Tag>
+        );
+      },
     },
     {
       header: "Action",
       align: "center",
-      body: (rowData) => {
+      body: (rowData: Employee) => {
         const op = useRef<OverlayPanel | null>(null);
         return (
           <>
@@ -179,11 +126,28 @@ const EmployeesContent = () => {
     },
   ];
 
+  if (isError) {
+    return (
+      <div>
+        <h2>Something went wrong while getting employees data.</h2>
+      </div>
+    );
+  }
+
+  if (isPending) {
+    return (
+      <div>
+        <p>loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Table
-        data={employees}
+        data={employees || []}
         columns={columns}
+        dataKey="emp_id"
         onSelected={(list) => {
           setSelectedList(list);
         }}
