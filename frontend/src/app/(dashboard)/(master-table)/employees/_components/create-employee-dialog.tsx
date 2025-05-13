@@ -1,11 +1,14 @@
+"use client";
+
 import Dialog from "@/components/ui/dialog";
+import CreateEmployeeForm from "./create-employee-form";
 
 type Props = {
   open: boolean;
   onClose: () => void;
 };
 
-const AddEmployeeDialog = ({ open, onClose }: Props) => {
+const CreateEmployeeDialog = ({ open, onClose }: Props) => {
   return (
     <Dialog
       visible={open}
@@ -13,7 +16,7 @@ const AddEmployeeDialog = ({ open, onClose }: Props) => {
       content={
         <>
           <div>
-            <h2>Add Employee form</h2>
+            <CreateEmployeeForm />
           </div>
         </>
       }
@@ -21,4 +24,4 @@ const AddEmployeeDialog = ({ open, onClose }: Props) => {
   );
 };
 
-export default AddEmployeeDialog;
+export default CreateEmployeeDialog;

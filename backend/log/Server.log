@@ -105,3 +105,32 @@
 ::1 - Mon May 12 2025 20:36:13 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 3 - node
 ::1 - Mon May 12 2025 20:37:44 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 4 - node
 ::1 - Mon May 12 2025 20:38:07 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 4 - node
+::1 - Mon May 12 2025 21:01:50 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 2 - node
+::1 - Mon May 12 2025 21:01:50 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 2 - node
+::1 - Tue May 13 2025 19:14:09 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 404 35 - 3 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+::1 - Tue May 13 2025 19:14:10 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 404 35 - 2 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+::1 - Tue May 13 2025 19:14:18 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 12 - node
+::1 - Tue May 13 2025 19:15:35 GMT+0800 (Philippine Standard Time) - GET / HTTP/1.1 404 35 - 2 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+::1 - Tue May 13 2025 19:16:21 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 8 - node
+::1 - Tue May 13 2025 19:17:26 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 6 - node
+::1 - Tue May 13 2025 19:18:59 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 8 - node
+::1 - Tue May 13 2025 19:24:06 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 937 - 9 - node
+::1 - Tue May 13 2025 19:25:46 GMT+0800 (Philippine Standard Time) - DELETE /api/v1/employees/23 HTTP/1.1 500 30 - 8 - PostmanRuntime/7.43.4
+::1 - Tue May 13 2025 19:25:52 GMT+0800 (Philippine Standard Time) - DELETE /api/v1/employees/1 HTTP/1.1 200 16 - 9 - PostmanRuntime/7.43.4
+::1 - Tue May 13 2025 19:26:40 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:29:07 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:29:07 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 3 - node
+::1 - Tue May 13 2025 19:29:26 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:31:56 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:38:58 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 4 - node
+::1 - Tue May 13 2025 19:40:46 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 13 - node
+::1 - Tue May 13 2025 19:46:46 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:49:01 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 7 - node
+::1 - Tue May 13 2025 19:50:11 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 3 - node
+::1 - Tue May 13 2025 19:51:55 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:53:01 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 4 - node
+::1 - Tue May 13 2025 19:54:09 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 5 - node
+::1 - Tue May 13 2025 19:55:17 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 703 - 2 - node
+::1 - Tue May 13 2025 19:56:23 GMT+0800 (Philippine Standard Time) - DELETE /api/v1/employees/3 HTTP/1.1 200 16 - 3 - node
+::1 - Tue May 13 2025 19:56:23 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 473 - 2 - node
+::1 - Tue May 13 2025 19:57:26 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 473 - 3 - node

@@ -1,18 +1,16 @@
-import { ConfirmDialog } from "primereact/confirmdialog";
+import { ConfirmDialog, ConfirmDialogProps } from "primereact/confirmdialog";
+import { ReactNode } from "react";
 
 type Props = {
-  visible: boolean;
   title: string;
-  description: string;
   onHide: () => void;
   onCancel: () => void;
   onContinue: () => void;
-};
-
+} & ConfirmDialogProps;
 const Alert = ({
-  visible,
   title,
-  description,
+  visible,
+  message,
   onHide,
   onCancel,
   onContinue,
@@ -22,7 +20,10 @@ const Alert = ({
       group="declarative"
       visible={visible}
       header={title}
-      message={description}
+      message={message}
+      acceptClassName="p-button-danger"
+      rejectClassName="mr-2"
+      style={{ width: "30vw" }}
       accept={onContinue}
       reject={onCancel}
       onHide={onHide}

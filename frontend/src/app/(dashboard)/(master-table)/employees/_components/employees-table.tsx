@@ -4,20 +4,22 @@ import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useRef, useState } from "react";
-import EditEmployeeDialog from "./EditEmployeeDialog";
 import Alert from "@/components/ui/alert";
 import { useEmployees } from "@/hooks/employees/useEmployees";
 import { Tag } from "primereact/tag";
 import { formatDate } from "@/lib/utils";
 import { Employee } from "@/api/employees/types";
+import EditEmployeeDialog from "./edit-employee-dialog";
+import { Toast } from "primereact/toast";
 
-const EmployeesContent = () => {
+const EmployeesTable = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
   const [selectedList, setSelectedList] = useState<Employee[]>([]);
+  const toastRef = useRef<Toast | null>(null);
 
-  const { isError, isPending, employees } = useEmployees();
+  const { isError, isPending, employees, deleteMutation } = useEmployees();
 
   const columns: ColumnProps[] = [
     {
@@ -163,8 +165,14 @@ const EmployeesContent = () => {
       />
       <Alert
         visible={openDeleteAlert}
-        title="Are you sure?"
-        description="This action cannot be undone"
+        title="Are you absolutely sure?"
+        message={
+          <p>
+            "This action will permanently delete the employee record for{" "}
+            <strong>{`${selected?.first_name} ${selected?.last_name}`}</strong>.
+            This action cannot be undone."
+          </p>
+        }
         onHide={() => {
           setSelected(null);
           setOpenDeleteAlert(false);
@@ -174,13 +182,26 @@ const EmployeesContent = () => {
           setOpenDeleteAlert(false);
         }}
         onContinue={() => {
-          // Todo: call delete mutation
-          setSelected(null);
-          setOpenDeleteAlert(false);
+          if (selected) {
+            deleteMutation.mutate(selected?.emp_id, {
+              onSuccess: () => {
+                if (toastRef.current) {
+                  toastRef.current.show({
+                    severity: "success",
+                    summary: "Deleted successfully",
+                    detail: "Employee has beed removed from your master list.",
+                  });
+                }
+              },
+            });
+            setSelected(null);
+            setOpenDeleteAlert(false);
+          }
         }}
       />
+      <Toast ref={toastRef} />
     </div>
   );
 };
 
-export default EmployeesContent;
+export default EmployeesTable;
