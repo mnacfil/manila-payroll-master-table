@@ -42,6 +42,7 @@ router.post("/", async (req, res) => {
     const result = await employeeService.createEmployee(req.body);
     res.status(201).json(result);
   } catch (error) {
+    console.log("Error in creating employe. ", error);
     res.status(500).json({ error: error?.message || "Server error" });
   }
 });
