@@ -9,3 +9,10 @@ export type Employee = {
   created_at: string;
   updated_at: string;
 };
+
+export type CreateEmployeePayload = Pick<
+  Employee,
+  "first_name" | "last_name" | "date_hired" | "email" | "salary" | "active"
+>;
+
+export type CreateEmployeeRes = Omit<Employee, "created_at" | "updated_at">;

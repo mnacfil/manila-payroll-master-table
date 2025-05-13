@@ -1,3 +1,5 @@
+"use client";
+
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { Button } from "primereact/button";
