@@ -16,3 +16,9 @@ export type CreateEmployeePayload = Pick<
 >;
 
 export type CreateEmployeeRes = Omit<Employee, "created_at" | "updated_at">;
+
+export type UpdateEmployeePayload = Partial<CreateEmployeePayload>;
+export type UpdateEmployeeParams = {
+  id: string;
+  payload: UpdateEmployeePayload;
+};

@@ -2,7 +2,11 @@
 
 import { apiConfig } from "../config";
 import { PATHS } from "../path";
-import { CreateEmployeePayload, CreateEmployeeRes } from "./types";
+import {
+  CreateEmployeePayload,
+  CreateEmployeeRes,
+  UpdateEmployeeParams,
+} from "./types";
 
 const { baseUrl } = apiConfig;
 
@@ -22,8 +26,11 @@ export const deleteEmployee = async (id: string) => {
 };
 
 export const createEmployee = async (payload: CreateEmployeePayload) => {
-  // Todo format date
-  const body = { ...payload, active: 1, date_hired: "2025-05-13" };
+  const body = {
+    ...payload,
+    active: 1,
+    date_hired: new Date(payload.date_hired).toISOString().split("T")[0],
+  };
   try {
     const response = await fetch(`${baseUrl}/${PATHS.EMPLOYEES}`, {
       method: "POST",
@@ -34,7 +41,7 @@ export const createEmployee = async (payload: CreateEmployeePayload) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => {});
       throw new Error(
         errorData.message ||
           `Server responded with status ${response.status}: ${response.statusText}`
@@ -47,6 +54,37 @@ export const createEmployee = async (payload: CreateEmployeePayload) => {
     console.error("Error creating employee:", error);
     throw new Error(
       error instanceof Error ? error.message : "Failed to create employee"
+    );
+  }
+};
+
+export const updateEmployee = async ({ id, payload }: UpdateEmployeeParams) => {
+  try {
+    const body = {
+      ...payload,
+      ...(payload.date_hired && {
+        date_hired: new Date(payload.date_hired).toISOString().split("T")[0],
+      }),
+    };
+
+    const response = await fetch(`${baseUrl}/${PATHS.EMPLOYEES}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      throw new Error(
+        errorData?.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    console.error("Error updating employee:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update employee"
     );
   }
 };

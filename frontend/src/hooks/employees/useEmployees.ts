@@ -2,8 +2,16 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getEmployeesOptions } from "./query-options";
-import { createEmployee, deleteEmployee } from "@/api/employees/mutations";
+import {
+  createEmployee,
+  deleteEmployee,
+  updateEmployee,
+} from "@/api/employees/mutations";
 import { employeeKeys } from "@/api/employees/employeKeys";
+import {
+  CreateEmployeePayload,
+  UpdateEmployeeParams,
+} from "@/api/employees/types";
 
 export const useEmployees = () => {
   const queryClient = useQueryClient();
@@ -23,7 +31,17 @@ export const useEmployees = () => {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (payload: any) => createEmployee(payload),
+    mutationFn: (payload: CreateEmployeePayload) => createEmployee(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: employeeKeys.mutateEmployee,
+      });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, payload }: UpdateEmployeeParams) =>
+      updateEmployee({ id, payload }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: employeeKeys.mutateEmployee,
@@ -37,5 +55,6 @@ export const useEmployees = () => {
     employees,
     deleteMutation,
     createMutation,
+    updateMutation,
   };
 };

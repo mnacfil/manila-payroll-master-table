@@ -11,15 +11,16 @@ import { useEmployees } from "@/hooks/employees/useEmployees";
 import { Tag } from "primereact/tag";
 import { formatDate } from "@/lib/utils";
 import { Employee } from "@/api/employees/types";
-import EditEmployeeDialog from "./edit-employee-dialog";
 import { Toast } from "primereact/toast";
+import Dialog from "@/components/ui/dialog";
+import EmployeeForm from "./employee-form";
 
 const EmployeesTable = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
   const [selectedList, setSelectedList] = useState<Employee[]>([]);
-  const toastRef = useRef<Toast | null>(null);
+  const toast = useRef<Toast | null>(null);
 
   const { isError, isPending, employees, deleteMutation } = useEmployees();
 
@@ -157,13 +158,40 @@ const EmployeesTable = () => {
         }}
       />
 
-      <EditEmployeeDialog
-        open={openEditDialog}
-        employee={selected}
-        onClose={() => {
-          setSelected(null);
+      <Dialog
+        visible={openEditDialog}
+        onHide={() => {
+          if (!openEditDialog) return;
           setOpenEditDialog(false);
         }}
+        position="center"
+        style={{ width: "50vw" }}
+        closeIcon
+        content={
+          <>
+            <EmployeeForm
+              mode="edit"
+              defaultData={selected}
+              onSuccessCb={() => {
+                setOpenEditDialog(false);
+                toast.current?.show({
+                  severity: "success",
+                  summary: "Success",
+                  detail: "Employee updated successfully",
+                  life: 3000,
+                });
+              }}
+              onErrorCb={(error) => {
+                toast.current?.show({
+                  severity: "error",
+                  summary: "Error",
+                  detail: error?.message || "Failed to update employee",
+                  life: 4000,
+                });
+              }}
+            />
+          </>
+        }
       />
       <Alert
         visible={openDeleteAlert}
@@ -187,8 +215,8 @@ const EmployeesTable = () => {
           if (selected) {
             deleteMutation.mutate(selected?.emp_id, {
               onSuccess: () => {
-                if (toastRef.current) {
-                  toastRef.current.show({
+                if (toast.current) {
+                  toast.current.show({
                     severity: "success",
                     summary: "Deleted successfully",
                     detail: "Employee has beed removed from your master list.",
@@ -201,7 +229,7 @@ const EmployeesTable = () => {
           }
         }}
       />
-      <Toast ref={toastRef} />
+      <Toast ref={toast} />
     </div>
   );
 };

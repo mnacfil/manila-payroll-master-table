@@ -1,18 +1,9 @@
-import { Dialog as PDialog } from "primereact/dialog";
-import { ReactNode } from "react";
+import { DialogProps, Dialog as PDialog } from "primereact/dialog";
 
-type Props = {
-  visible: boolean;
-  onHide: () => void;
-  content: ReactNode;
-};
+type Props = {} & DialogProps;
 
-const Dialog = ({ content, onHide, visible }: Props) => {
-  return (
-    <PDialog visible={visible} onHide={() => onHide()}>
-      {content}
-    </PDialog>
-  );
+const Dialog = (props: Props) => {
+  return <PDialog {...props} />;
 };
 
 export default Dialog;

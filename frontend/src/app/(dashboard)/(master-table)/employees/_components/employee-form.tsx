@@ -1,0 +1,204 @@
+"use client";
+
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { Calendar } from "primereact/calendar";
+import { InputNumber } from "primereact/inputnumber";
+import { CreateEmployeePayload, Employee } from "@/api/employees/types";
+import { useEmployees } from "@/hooks/employees/useEmployees";
+
+type Props = {
+  mode?: "create" | "edit";
+  defaultData?: Employee | null;
+  onSuccessCb?: () => void;
+  onErrorCb?: (error: Error) => void;
+};
+
+const EmployeeForm = ({
+  defaultData,
+  onErrorCb,
+  onSuccessCb,
+  mode = "create",
+}: Props) => {
+  const { createMutation, updateMutation } = useEmployees();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+  } = useForm<Employee>({
+    defaultValues: {
+      date_hired: defaultData?.date_hired || "",
+      email: defaultData?.email || "",
+      first_name: defaultData?.first_name || "",
+      last_name: defaultData?.last_name || "",
+      salary: defaultData?.salary || "",
+    },
+  });
+
+  const onSubmit = async (data: CreateEmployeePayload) => {
+    if (mode === "create") {
+      createMutation.mutate(data, {
+        onSuccess: () => {
+          reset();
+          onSuccessCb?.();
+        },
+        onError: (error) => {
+          onErrorCb?.(error);
+        },
+      });
+    } else {
+      updateMutation.mutate(
+        { id: defaultData?.emp_id || "", payload: data },
+        {
+          onSuccess: () => {
+            reset();
+            onSuccessCb?.();
+          },
+        }
+      );
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg p-6 w-full">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        {mode === "create" ? "Create" : "Edit"} Employee
+      </h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <label
+              htmlFor="first_name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              First Name*
+            </label>
+            <InputText
+              id="first_name"
+              {...register("first_name", {
+                required: "First name is required",
+              })}
+              className={`w-full ${errors.first_name ? "border-red-500" : ""}`}
+            />
+            {errors.first_name && (
+              <p className="text-sm text-red-600">
+                {errors.first_name.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="last_name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Last Name*
+            </label>
+            <InputText
+              id="last_name"
+              {...register("last_name", { required: "Last name is required" })}
+              className={`w-full ${errors.last_name ? "border-red-500" : ""}`}
+            />
+            {errors.last_name && (
+              <p className="text-sm text-red-600">{errors.last_name.message}</p>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email*
+          </label>
+          <InputText
+            id="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
+            })}
+            className={`w-full ${errors.email ? "border-red-500" : ""}`}
+          />
+          {errors.email && (
+            <p className="text-sm text-red-600">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <label
+              htmlFor="date_hired"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date Hired*
+            </label>
+            <Calendar
+              id="date_hired"
+              {...register("date_hired", {
+                required: "Date hired is required",
+              })}
+              dateFormat="yy-mm-dd"
+              showIcon
+              className={`w-full ${errors.date_hired ? "border-red-500" : ""}`}
+            />
+            {errors.date_hired && (
+              <p className="text-sm text-red-600">
+                {errors.date_hired.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="salary"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Salary*
+            </label>
+            <Controller
+              name="salary"
+              control={control}
+              rules={{ required: "Salary is required" }}
+              render={({ field, fieldState }) => (
+                <InputNumber
+                  id="salary"
+                  value={Number(field.value)}
+                  onValueChange={(e) => field.onChange(e.value)}
+                  mode="currency"
+                  currency="PHP"
+                  locale="en-US"
+                  className={`w-full ${
+                    fieldState.error ? "border-red-500" : ""
+                  }`}
+                />
+              )}
+            />
+            {errors.salary && (
+              <p className="text-sm text-red-600">{errors.salary.message}</p>
+            )}
+          </div>
+        </div>
+
+        <div className="pt-2 flex justify-end">
+          <Button
+            type="submit"
+            label={`${mode === "create" ? "Create Employee" : "Save Changes"}`}
+            icon={`pi pi-user-${mode === "create" ? "plus" : "edit"}`}
+            loading={createMutation.isPending}
+          />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default EmployeeForm;
