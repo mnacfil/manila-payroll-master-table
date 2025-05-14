@@ -170,9 +170,8 @@ const EmployeesTable = () => {
         }}
         position="center"
         style={{ width: "50vw" }}
-        closeIcon
         content={
-          <>
+          <div className="relative">
             <EmployeeForm
               mode="edit"
               defaultData={selected}
@@ -194,7 +193,13 @@ const EmployeesTable = () => {
                 });
               }}
             />
-          </>
+            <i
+              role="button"
+              aria-label="close"
+              className="pi pi-times absolute top-5 right-5 cursor-pointer"
+              onClick={() => setOpenEditDialog(false)}
+            ></i>
+          </div>
         }
       />
       <Alert
