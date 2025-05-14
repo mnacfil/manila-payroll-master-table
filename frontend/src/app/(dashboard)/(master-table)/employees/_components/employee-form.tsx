@@ -22,7 +22,6 @@ const EmployeeForm = ({
   mode = "create",
 }: Props) => {
   const { createMutation, updateMutation } = useEmployees();
-
   const {
     register,
     handleSubmit,
@@ -38,7 +37,6 @@ const EmployeeForm = ({
       salary: defaultData?.salary || "",
     },
   });
-
   const onSubmit = async (data: CreateEmployeePayload) => {
     if (mode === "create") {
       createMutation.mutate(data, {
@@ -134,41 +132,49 @@ const EmployeeForm = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label
-              htmlFor="date_hired"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Date Hired*
-            </label>
-            <Calendar
-              id="date_hired"
-              {...register("date_hired", {
-                required: "Date hired is required",
-              })}
-              dateFormat="yy-mm-dd"
-              showIcon
-              className={`w-full ${errors.date_hired ? "border-red-500" : ""}`}
-            />
-            {errors.date_hired && (
-              <p className="text-sm text-red-600">
-                {errors.date_hired.message}
-              </p>
+          <Controller
+            name="date_hired"
+            control={control}
+            rules={{ required: "Date hired is required" }}
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                <label
+                  htmlFor="date_hired"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date Hired*
+                </label>
+                <Calendar
+                  id="date_hired"
+                  value={field.value ? new Date(field.value) : null}
+                  onChange={(e) => field.onChange(e.value)}
+                  dateFormat="yy-mm-dd"
+                  showIcon
+                  className={`w-full ${
+                    fieldState.error ? "border-red-500" : ""
+                  }`}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-600">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
+          />
 
-          <div className="space-y-1">
-            <label
-              htmlFor="salary"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Salary*
-            </label>
-            <Controller
-              name="salary"
-              control={control}
-              rules={{ required: "Salary is required" }}
-              render={({ field, fieldState }) => (
+          <Controller
+            name="salary"
+            control={control}
+            rules={{ required: "Salary is required" }}
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                <label
+                  htmlFor="salary"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Salary*
+                </label>
                 <InputNumber
                   id="salary"
                   value={Number(field.value)}
@@ -180,12 +186,14 @@ const EmployeeForm = ({
                     fieldState.error ? "border-red-500" : ""
                   }`}
                 />
-              )}
-            />
-            {errors.salary && (
-              <p className="text-sm text-red-600">{errors.salary.message}</p>
+                {fieldState.error && (
+                  <p className="text-sm text-red-600">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
+          />
         </div>
 
         <div className="pt-2 flex justify-end">
@@ -193,7 +201,7 @@ const EmployeeForm = ({
             type="submit"
             label={`${mode === "create" ? "Create Employee" : "Save Changes"}`}
             icon={`pi pi-user-${mode === "create" ? "plus" : "edit"}`}
-            loading={createMutation.isPending}
+            loading={createMutation.isPending || updateMutation.isPending}
           />
         </div>
       </form>

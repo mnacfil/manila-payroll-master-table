@@ -34,10 +34,14 @@ const EmployeesTable = () => {
       header: "Last Name",
     },
     {
+      field: "email",
+      header: "Email",
+    },
+    {
       field: "date_hired",
       header: "Date Hired",
       body: (rowData: Employee) => {
-        return <p>{formatDate(rowData?.created_at)}</p>;
+        return <p>{formatDate(rowData?.date_hired)}</p>;
       },
     },
     {
