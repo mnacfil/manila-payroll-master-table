@@ -4,8 +4,8 @@ var employeeService = require("../services/employeeService");
 
 router.get("/", async (req, res) => {
   try {
-    const employees = await employeeService.getEmployees();
-    res.json(employees);
+    const response = await employeeService.getEmployees();
+    res.json(response);
   } catch (error) {
     res.status(500).json({ error: error?.message || "Server error" });
   }
@@ -13,13 +13,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const employee = await employeeService.getEmployee(req.params.id);
-    if (!employee) {
-      res.status(404).json({
-        error: "Employee not found",
-      });
+    if (!req.params.id) {
+      res.status(400).json({ error: "Invalid Request, No id provided" });
     }
-    res.status(200).json(employee);
+    const response = await employeeService.getEmployee(req.params.id);
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error?.message || "Server error" });
   }
@@ -27,8 +25,8 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const result = await employeeService.deleteEmployee(req.params.id);
-    res.json({ success: result });
+    const response = await employeeService.deleteEmployee(req.params.id);
+    res.json({ success: response });
   } catch (error) {
     res.status(500).json({ error: error?.message || "Server error" });
   }
@@ -39,8 +37,8 @@ router.post("/", async (req, res) => {
     if (!req.body.first_name || !req.body.last_name || !req.body.email) {
       res.status(400).json({ error: "Please fill up all required fields" });
     }
-    const result = await employeeService.createEmployee(req.body);
-    res.status(201).json(result);
+    const response = await employeeService.createEmployee(req.body);
+    res.status(201).json(response);
   } catch (error) {
     console.log("Error in creating employe. ", error);
     res.status(500).json({ error: error?.message || "Server error" });
@@ -49,11 +47,11 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const result = await employeeService.updateEmployee(
+    const response = await employeeService.updateEmployee(
       req.params.id,
       req.body
     );
-    res.status(200).json(result);
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error?.message || "Server error" });
   }
@@ -65,9 +63,9 @@ router.post("/batch-delete", async (req, res) => {
     if (!ids || !Array.isArray(ids)) {
       res.status(400).json({ success: false, error: "Invalid employee IDs" });
     }
-    const result = await employeeService.deleteMultipleEmployee(ids);
+    const response = await employeeService.deleteMultipleEmployee(ids);
 
-    res.status(200).json(result);
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error?.message || "Server error" });
   }

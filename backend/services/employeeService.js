@@ -9,7 +9,10 @@ async function getEmployee(id) {
   const [result] = await pool.query("SELECT * from employee WHERE emp_id = ?", [
     id,
   ]);
-  return result[0] || null;
+  if (!result[0]) {
+    throw new Error("Employee not found");
+  }
+  return result[0];
 }
 
 async function deleteEmployee(id) {
