@@ -41,14 +41,19 @@ async function deleteGroup(id) {
 async function updateGroup(id, newUpdates) {
   return transaction(async (connection) => {
     const [result] = await connection.query(
-      "UPDATE FROM `group` SET ? WHERE id = ?",
+      "UPDATE `group` SET ? WHERE id = ?",
       [newUpdates, id]
     );
     if (result.affectedRows === 0) {
-      throw new Error("Group not found");
+      throw new Error("Group do not exist");
     }
 
-    return getGroup(id);
+    const [groupResult] = await connection.query(
+      "SELECT * FROM `group` WHERE id = ?",
+      [id]
+    );
+
+    return groupResult[0];
   });
 }
 
