@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardSidebar from "@/components/layout/sidebar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BreadCrumb } from "primereact/breadcrumb";
 import { Sidebar } from "primereact/sidebar";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const DashboardLayout = ({ children }: Children) => {
   const [open, setOpen] = useState(true);
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const [isLargeScreen, setIsLargeScreen] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth >= LARGE_WIDTH;
@@ -34,7 +35,7 @@ const DashboardLayout = ({ children }: Children) => {
     ...pathname
       .slice(1)
       .split("/")
-      .map((item) => ({ label: item })),
+      .map((item) => ({ label: item, command: () => router.push(`/${item}`) })),
   ];
 
   return (

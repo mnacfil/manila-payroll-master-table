@@ -14,6 +14,8 @@ import { Employee } from "@/api/employees/types";
 import { Toast } from "primereact/toast";
 import Dialog from "@/components/ui/dialog";
 import EmployeeForm from "./employee-form";
+import Link from "next/link";
+import { PATHS } from "@/api/path";
 
 type Props = {
   onSelectedEmployees: (employees: Employee[]) => void;
@@ -75,19 +77,21 @@ const EmployeesTable = ({ onSelectedEmployees }: Props) => {
               op={op}
               content={
                 <div className="flex flex-col gap-1">
-                  <Button
-                    label="View"
-                    icon="pi pi-eye"
-                    severity="info"
-                    text
-                    style={{ width: "8rem" }}
-                    onClick={() => {
-                      setSelected(rowData);
-                      if (op.current) {
-                        op.current.hide();
-                      }
-                    }}
-                  />
+                  <Link href={`${PATHS.EMPLOYEES}/${rowData.emp_id}`}>
+                    <Button
+                      label="View"
+                      icon="pi pi-eye"
+                      severity="info"
+                      text
+                      style={{ width: "8rem" }}
+                      onClick={() => {
+                        setSelected(rowData);
+                        if (op.current) {
+                          op.current.hide();
+                        }
+                      }}
+                    />
+                  </Link>
                   <Button
                     label="Edit"
                     icon="pi pi-pencil"
