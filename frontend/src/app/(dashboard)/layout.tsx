@@ -59,7 +59,7 @@ const DashboardLayout = ({ children }: Children) => {
               model={breadcrumbItems}
               // home={{ icon: "pi pi-home", command: () => router.push("/") }}
               home={{ icon: "pi pi-home" }}
-              className="border-none bg-transparent p-0"
+              className="border-none bg-transparent"
             />
           </div>
           <main className="h-full container py-8 mx-auto max-w-7xl">

@@ -428,3 +428,9 @@
 ::1 - Thu May 15 2025 14:22:30 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 4 - node
 ::1 - Thu May 15 2025 14:22:34 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees/10 HTTP/1.1 200 231 - 11 - node
 ::1 - Thu May 15 2025 14:22:38 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node
+::1 - Thu May 15 2025 14:24:29 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node
+::1 - Thu May 15 2025 14:26:11 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node
+::1 - Thu May 15 2025 14:32:48 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 3 - node
+::1 - Thu May 15 2025 14:36:50 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node
+::1 - Thu May 15 2025 14:47:39 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node
+::1 - Thu May 15 2025 14:53:31 GMT+0800 (Philippine Standard Time) - GET /api/v1/employees HTTP/1.1 200 - - 2 - node

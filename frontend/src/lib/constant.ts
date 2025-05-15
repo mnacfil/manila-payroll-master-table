@@ -4,22 +4,22 @@ export const DashboardLinks = [
     items: [
       {
         label: "Employees",
-        href: "/apps/employees",
+        href: "/employees",
         icon: "user",
       },
       {
         label: "Group Tables",
-        href: "/apps/group-tables",
+        href: "/group-tables",
         icon: "table",
       },
       {
         label: "Loan Account",
-        href: "/apps/loan-account",
+        href: "/loan-account",
         icon: "wallet",
       },
       {
         label: "Government Rates",
-        href: "/apps/government-rates",
+        href: "/government-rates",
         icon: "percentage",
       },
     ],
