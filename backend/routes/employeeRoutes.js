@@ -59,4 +59,18 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.post("/batch-delete", async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids)) {
+      res.status(400).json({ success: false, error: "Invalid employee IDs" });
+    }
+    const result = await employeeService.deleteMultipleEmployee(ids);
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error?.message || "Server error" });
+  }
+});
+
 module.exports = router;

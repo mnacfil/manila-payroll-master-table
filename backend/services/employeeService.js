@@ -40,10 +40,34 @@ async function updateEmployee(id, newUpdates) {
   });
 }
 
+async function deleteMultipleEmployee(ids) {
+  if (!Array.isArray(ids)) {
+    throw new Error("Ids must be an array");
+  }
+  if (ids.length === 0) {
+    return {
+      success: false,
+      message: "Please selected employees to delete.",
+    };
+  }
+  return transaction(async (connection) => {
+    const placeholders = ids.map(() => "?").join(",");
+    const [result] = await connection.query(
+      `DELETE FROM employee WHERE emp_id IN (${placeholders})`,
+      ids
+    );
+    return {
+      success: true,
+      count: result.affectedRows,
+    };
+  });
+}
+
 module.exports = {
   getEmployees,
   getEmployee,
-  deleteEmployee,
   createEmployee,
   updateEmployee,
+  deleteEmployee,
+  deleteMultipleEmployee,
 };

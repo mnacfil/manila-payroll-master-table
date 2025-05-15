@@ -15,11 +15,14 @@ import { Toast } from "primereact/toast";
 import Dialog from "@/components/ui/dialog";
 import EmployeeForm from "./employee-form";
 
-const EmployeesTable = () => {
+type Props = {
+  onSelectedEmployees: (employees: Employee[]) => void;
+};
+
+const EmployeesTable = ({ onSelectedEmployees }: Props) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
-  const [selectedList, setSelectedList] = useState<Employee[]>([]);
   const toast = useRef<Toast | null>(null);
 
   const { isError, isPending, employees, deleteMutation } = useEmployees();
@@ -158,7 +161,7 @@ const EmployeesTable = () => {
         columns={columns}
         dataKey="emp_id"
         onSelected={(list) => {
-          setSelectedList(list);
+          onSelectedEmployees(list);
         }}
       />
 

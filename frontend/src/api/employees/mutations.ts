@@ -81,10 +81,42 @@ export const updateEmployee = async ({ id, payload }: UpdateEmployeeParams) => {
           `Server responded with status ${response.status}: ${response.statusText}`
       );
     }
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error updating employee:", error);
     throw new Error(
       error instanceof Error ? error.message : "Failed to update employee"
+    );
+  }
+};
+
+export const deleteMultipleEmployee = async (ids: string[]) => {
+  try {
+    const body = { ids };
+    const response = await fetch(`${baseUrl}/${PATHS.EMPLOYEES}/batch-delete`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      console.log(errorData);
+      throw new Error(
+        errorData?.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting multiple employee:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Failed to delete multiple employee"
     );
   }
 };

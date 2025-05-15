@@ -5,6 +5,7 @@ import { getEmployeesOptions } from "./query-options";
 import {
   createEmployee,
   deleteEmployee,
+  deleteMultipleEmployee,
   updateEmployee,
 } from "@/api/employees/mutations";
 import { employeeKeys } from "@/api/employees/employeKeys";
@@ -49,6 +50,15 @@ export const useEmployees = () => {
     },
   });
 
+  const deleteMultipleMutation = useMutation({
+    mutationFn: (ids: string[]) => deleteMultipleEmployee(ids),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: employeeKeys.mutateEmployee,
+      });
+    },
+  });
+
   return {
     isPending,
     isError,
@@ -56,5 +66,6 @@ export const useEmployees = () => {
     deleteMutation,
     createMutation,
     updateMutation,
+    deleteMultipleMutation,
   };
 };

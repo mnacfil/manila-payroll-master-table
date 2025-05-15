@@ -1,5 +1,6 @@
 "use client";
 
+import { Employee } from "@/api/employees/types";
 import { Column, ColumnProps } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { useState } from "react";
@@ -8,7 +9,7 @@ type Props = {
   data: any[];
   columns: ColumnProps[];
   dataKey: string;
-  onSelected?: (list: any[]) => void;
+  onSelected?: (list: Employee[]) => void;
 };
 
 const Table = ({ columns, data, dataKey, onSelected }: Props) => {
