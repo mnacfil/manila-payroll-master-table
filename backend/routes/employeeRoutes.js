@@ -1,6 +1,6 @@
 var express = require("express");
-var employeeService = require("../services/employeeService");
 var router = express.Router();
+var employeeService = require("../services/employeeService");
 
 router.get("/", async (req, res) => {
   try {
