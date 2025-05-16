@@ -1,7 +1,9 @@
 const { pool, transaction } = require("../dbconfig");
 
 async function getEmployees() {
-  const [result] = await pool.query("SELECT * from employee");
+  const [result] = await pool.query(
+    "SELECT * from employee ORDER BY created_at DESC"
+  );
   return result;
 }
 
