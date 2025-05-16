@@ -1,4 +1,4 @@
-import { Group } from "@/api/group-tables/types";
+import { Group, Option } from "@/api/group-tables/types";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { DEFAULT_GROUP_ICON } from "@/lib/constant";
@@ -10,11 +10,12 @@ import { useRef, useState } from "react";
 
 type Props = {
   groups: Group[];
+  onSelectTab: (group: Omit<Group, "options">) => void;
 };
 
-const GroupTable = ({ groups }: Props) => {
+const GroupTable = ({ groups, onSelectTab }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const [selected, setSelected] = useState<Option | null>(null);
   const columns: ColumnProps[] = [
     {
       field: "code",
@@ -31,7 +32,7 @@ const GroupTable = ({ groups }: Props) => {
     {
       header: "Action",
       align: "center",
-      body: (rowData: any) => {
+      body: (rowData: Option) => {
         const op = useRef<OverlayPanel | null>(null);
         return (
           <>
@@ -39,19 +40,7 @@ const GroupTable = ({ groups }: Props) => {
               op={op}
               content={
                 <div className="flex flex-col gap-1">
-                  <Button
-                    label="View"
-                    icon="pi pi-eye"
-                    severity="info"
-                    text
-                    style={{ width: "8rem" }}
-                    onClick={() => {
-                      //   setSelected(rowData);
-                      if (op.current) {
-                        op.current.hide();
-                      }
-                    }}
-                  />
+                  <p className="mb-2 font-medium">Option Actions</p>
                   <Button
                     label="Edit"
                     icon="pi pi-pencil"
@@ -59,7 +48,7 @@ const GroupTable = ({ groups }: Props) => {
                     text
                     style={{ width: "8rem" }}
                     onClick={() => {
-                      // setSelected(rowData);
+                      setSelected(rowData);
                       // setOpenEditDialog(true);
                       if (op.current) {
                         op.current.hide();
@@ -73,7 +62,7 @@ const GroupTable = ({ groups }: Props) => {
                     text
                     style={{ width: "8rem" }}
                     onClick={() => {
-                      // setSelected(rowData);
+                      setSelected(rowData);
                       // setOpenDeleteAlert(true);
                       if (op.current) {
                         op.current.hide();
@@ -106,7 +95,13 @@ const GroupTable = ({ groups }: Props) => {
     <>
       <TabView
         activeIndex={activeIndex}
-        onTabChange={(e) => setActiveIndex(e.index)}
+        onTabChange={(e) => {
+          setActiveIndex(e.index);
+          onSelectTab({
+            id: groups[e.index]?.id,
+            title: groups[e.index]?.title,
+          });
+        }}
       >
         {groups.map((group) => (
           <TabPanel

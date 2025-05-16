@@ -10,13 +10,21 @@ import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import ManageGroups from "./manage-groups";
 import { useGroups } from "@/hooks/group-tables/useGroups";
+import GroupOptionForm from "./group-option-form";
+import { Group } from "@/api/group-tables/types";
 
 const GroupTablesView = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openManageGroupDialog, setOpenManageGroupDialog] = useState(false);
+  const [openCreateGroupOptionDialog, setOpenCreateGroupOptionDialog] =
+    useState(false);
   const toast = useRef<Toast | null>(null);
 
   const { isPending, isError, groups } = useGroups();
+  const [group, setGroup] = useState<Omit<Group, "options">>({
+    id: "",
+    title: "",
+  });
 
   if (isPending) {
     return <p>Loading...</p>;
@@ -35,12 +43,24 @@ const GroupTablesView = () => {
             Manage groups and their options for your company.
           </p>
         </div>
-        <Button
-          label="Manage Groups"
-          icon="pi pi-cog"
-          outlined
-          onClick={() => setOpenManageGroupDialog(true)}
-        />
+        <div className="flex gap-2">
+          <Button
+            label="Manage Groups"
+            icon="pi pi-cog"
+            outlined
+            onClick={() => setOpenManageGroupDialog(true)}
+          />
+          <Button
+            icon="pi pi-plus"
+            text
+            tooltip="Create New Group"
+            tooltipOptions={{ position: "top" }}
+            aria-label="Create"
+            onClick={() => {
+              setOpenCreateDialog(true);
+            }}
+          />
+        </div>
       </div>
       <div className="flex items-center justify-between mb-8 gap-12">
         <InputText
@@ -53,13 +73,13 @@ const GroupTablesView = () => {
             label="Create"
             icon="pi pi-plus"
             onClick={() => {
-              setOpenCreateDialog(true);
+              setOpenCreateGroupOptionDialog(true);
             }}
           />
         </div>
       </div>
       <Card className="px-3 border border-b-[1px] border-gray-100">
-        <GroupTable groups={groups} />
+        <GroupTable groups={groups} onSelectTab={(tab) => setGroup(tab)} />
       </Card>
 
       <Dialog
@@ -106,6 +126,39 @@ const GroupTablesView = () => {
                 severity: "error",
                 summary: "Error",
                 detail: error?.message || "Failed to create group",
+                life: 4000,
+              });
+            }}
+          />
+        }
+      />
+
+      <Dialog
+        visible={openCreateGroupOptionDialog}
+        onHide={() => {
+          if (!openCreateGroupOptionDialog) return;
+          setOpenCreateGroupOptionDialog(false);
+        }}
+        style={{ width: "30vw" }}
+        onClose={() => setOpenCreateGroupOptionDialog(false)}
+        renderedContent={
+          <GroupOptionForm
+            group={group}
+            onCancel={() => setOpenCreateGroupOptionDialog(false)}
+            onSuccessCb={(response) => {
+              toast.current?.show({
+                severity: "success",
+                summary: "Success",
+                detail: `${response.name} option created successfully`,
+                life: 3000,
+              });
+              setOpenCreateGroupOptionDialog(false);
+            }}
+            onErrorCb={(error) => {
+              toast.current?.show({
+                severity: "error",
+                summary: "Error",
+                detail: error?.message || "Failed to create option",
                 life: 4000,
               });
             }}

@@ -2,11 +2,17 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getGroupsOptions } from "./query-option";
-import { CreateGroupPayload } from "@/api/group-tables/types";
+import {
+  CreateGroupOptionPayload,
+  CreateGroupPayload,
+  UpdateOptionParams,
+} from "@/api/group-tables/types";
 import {
   createGroup,
+  createGroupOption,
   deleteGroup,
   updateGroup,
+  updateGroupOption,
 } from "@/api/group-tables/mutations";
 import { groupTablesKeys } from "@/api/group-tables/groupKeys";
 
@@ -51,6 +57,30 @@ export const useGroups = () => {
     },
   });
 
+  const createOptionMutation = useMutation({
+    mutationFn: ({
+      groupId,
+      data,
+    }: {
+      groupId: string;
+      data: CreateGroupOptionPayload;
+    }) => createGroupOption(groupId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: groupTablesKeys.getGroups(),
+      });
+    },
+  });
+
+  const updateOptionMutation = useMutation({
+    mutationFn: (params: UpdateOptionParams) => updateGroupOption(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: groupTablesKeys.getGroups(),
+      });
+    },
+  });
+
   return {
     isPending,
     isError,
@@ -58,5 +88,7 @@ export const useGroups = () => {
     createMutation,
     deleteMutation,
     updateMutation,
+    createOptionMutation,
+    updateOptionMutation,
   };
 };

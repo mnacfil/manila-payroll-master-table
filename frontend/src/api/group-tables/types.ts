@@ -32,3 +32,32 @@ export type UpdateGroupRes = {
   created_at: string;
   updated_at: string;
 };
+
+export type CreateGroupOptionPayload = {
+  code_id: string;
+  name: string;
+  description?: string;
+};
+
+export type CreateGroupOptionRes = {
+  id: string;
+  code_id: string;
+  name: string;
+  description: string;
+};
+
+export type UpdateOptionParams = {
+  optionId: string;
+  groupId: string;
+  payload: Partial<CreateGroupOptionPayload>;
+};
+
+export type UpdateOptionRes = {
+  id: string;
+  code_id: string;
+  name: string;
+  description: string | null;
+  group_id: string;
+  created_at: string;
+  updated_at: string;
+};

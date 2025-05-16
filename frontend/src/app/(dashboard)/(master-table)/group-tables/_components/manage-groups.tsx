@@ -52,7 +52,7 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
               op={op}
               content={
                 <div className="flex flex-col gap-1">
-                  <p className="mb-2">Group Action</p>
+                  <p className="mb-2">Group Actions</p>
                   <Button
                     label="Edit"
                     icon="pi pi-pencil"
