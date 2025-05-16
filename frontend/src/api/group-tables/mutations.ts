@@ -2,7 +2,12 @@
 
 import { apiConfig } from "../config";
 import { PATHS } from "../path";
-import { CreateGroupPayload, CreateGroupRes, DeleteGroupRes } from "./types";
+import {
+  CreateGroupPayload,
+  CreateGroupRes,
+  DeleteGroupRes,
+  UpdateGroupRes,
+} from "./types";
 
 const { baseUrl } = apiConfig;
 
@@ -51,9 +56,36 @@ export const deleteGroup = async (id: string) => {
     const data: DeleteGroupRes = await response.json();
     return data;
   } catch (error) {
-    console.error("Error getting groups:", error);
+    console.error("Error deleting getting group:", error);
     throw new Error(
-      error instanceof Error ? error.message : "Failed to get groups"
+      error instanceof Error ? error.message : "Failed to delete group"
+    );
+  }
+};
+
+export const updateGroup = async (id: string, payload: CreateGroupPayload) => {
+  try {
+    const response = await fetch(`${baseUrl}/${PATHS.GROUPS}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      throw new Error(
+        errorData.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+
+    const data: UpdateGroupRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating group:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update group"
     );
   }
 };

@@ -3,7 +3,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getGroupsOptions } from "./query-option";
 import { CreateGroupPayload } from "@/api/group-tables/types";
-import { createGroup, deleteGroup } from "@/api/group-tables/mutations";
+import {
+  createGroup,
+  deleteGroup,
+  updateGroup,
+} from "@/api/group-tables/mutations";
 import { groupTablesKeys } from "@/api/group-tables/groupKeys";
 
 export const useGroups = () => {
@@ -32,11 +36,27 @@ export const useGroups = () => {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      newUpdates,
+    }: {
+      id: string;
+      newUpdates: CreateGroupPayload;
+    }) => updateGroup(id, newUpdates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: groupTablesKeys.getGroups(),
+      });
+    },
+  });
+
   return {
     isPending,
     isError,
     groups,
     createMutation,
     deleteMutation,
+    updateMutation,
   };
 };

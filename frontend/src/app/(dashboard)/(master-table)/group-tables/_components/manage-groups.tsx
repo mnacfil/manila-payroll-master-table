@@ -2,6 +2,7 @@
 
 import { Group } from "@/api/group-tables/types";
 import Alert from "@/components/ui/alert";
+import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { useGroups } from "@/hooks/group-tables/useGroups";
@@ -11,6 +12,7 @@ import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
+import GroupForm from "./group-form";
 
 type Props = {
   groups: Group[];
@@ -19,6 +21,7 @@ type Props = {
 const ManageGroups = ({ groups }: Props) => {
   const [selected, setSelected] = useState<Group | null>(null);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
   const toast = useRef<Toast | null>(null);
   const { deleteMutation } = useGroups();
   const columns: ColumnProps[] = [
@@ -39,7 +42,7 @@ const ManageGroups = ({ groups }: Props) => {
     },
     {
       header: "Action",
-      body: (rowData: any) => {
+      body: (rowData: Group) => {
         const op = useRef<OverlayPanel | null>(null);
         return (
           <>
@@ -56,7 +59,7 @@ const ManageGroups = ({ groups }: Props) => {
                     style={{ width: "8rem" }}
                     onClick={() => {
                       setSelected(rowData);
-                      // setOpenEditDialog(true);
+                      setOpenEditDialog(true);
                       if (op.current) {
                         op.current.hide();
                       }
@@ -111,9 +114,7 @@ const ManageGroups = ({ groups }: Props) => {
         columns={columns}
         dataKey="id"
         mode="single"
-        onSelected={(list) => {
-          //   onSelectedEmployees(list);
-        }}
+        onSelected={(list) => {}}
       />
       <Alert
         visible={openDeleteAlert}
@@ -159,6 +160,40 @@ const ManageGroups = ({ groups }: Props) => {
             setOpenDeleteAlert(false);
           }
         }}
+      />
+
+      <Dialog
+        visible={openEditDialog}
+        onHide={() => {
+          if (!openEditDialog) return;
+          setOpenEditDialog(false);
+        }}
+        style={{ width: "30vw" }}
+        onClose={() => setOpenEditDialog(false)}
+        renderedContent={
+          <GroupForm
+            mode="edit"
+            defaultGroup={selected}
+            onCancel={() => setOpenEditDialog(false)}
+            onSuccessCb={(response) => {
+              toast.current?.show({
+                severity: "success",
+                summary: "Success",
+                detail: "Group updated successfully",
+                life: 3000,
+              });
+              setOpenEditDialog(false);
+            }}
+            onErrorCb={(error) => {
+              toast.current?.show({
+                severity: "error",
+                summary: "Error",
+                detail: error?.message || "Failed to update group",
+                life: 4000,
+              });
+            }}
+          />
+        }
       />
       <Toast ref={toast} />
     </>

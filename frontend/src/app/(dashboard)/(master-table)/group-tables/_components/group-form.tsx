@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateGroupRes } from "@/api/group-tables/types";
+import { CreateGroupRes, Group } from "@/api/group-tables/types";
 import { useGroups } from "@/hooks/group-tables/useGroups";
 import { DEFAULT_GROUP_ICON, icons } from "@/lib/constant";
 import { Button } from "primereact/button";
@@ -11,12 +11,14 @@ import { Controller, useForm } from "react-hook-form";
 
 type Props = {
   mode?: "create" | "edit";
+  defaultGroup?: Group | null;
   onSuccessCb: (response: CreateGroupRes) => void;
   onErrorCb: (error: Error) => void;
   onCancel: () => void;
 };
 
 const GroupForm = ({
+  defaultGroup,
   onErrorCb,
   onSuccessCb,
   onCancel,
@@ -30,26 +32,40 @@ const GroupForm = ({
     handleSubmit,
   } = useForm({
     defaultValues: {
-      name: "",
+      name: mode === "edit" ? defaultGroup?.title : "",
       icon: DEFAULT_GROUP_ICON,
     },
   });
-
-  const { createMutation } = useGroups();
+  const { createMutation, updateMutation } = useGroups();
 
   const onSubmit = (values: any) => {
-    createMutation.mutate(
-      { title: values.name },
-      {
-        onSuccess: (response) => {
-          reset();
-          onSuccessCb(response);
-        },
-        onError: (error) => {
-          onErrorCb(error);
-        },
-      }
-    );
+    if (mode === "create") {
+      createMutation.mutate(
+        { title: values.name },
+        {
+          onSuccess: (response) => {
+            reset();
+            onSuccessCb(response);
+          },
+          onError: (error) => {
+            onErrorCb(error);
+          },
+        }
+      );
+    } else {
+      updateMutation.mutate(
+        { id: defaultGroup?.id || "", newUpdates: { title: values.name } },
+        {
+          onSuccess: (response) => {
+            reset();
+            onSuccessCb(response);
+          },
+          onError: (error) => {
+            onErrorCb(error);
+          },
+        }
+      );
+    }
   };
 
   const iconOptionTemplate = (option: { name: string; code: string }) => {

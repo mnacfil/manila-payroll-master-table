@@ -25,3 +25,10 @@ export type CreateGroupRes = {
 export type DeleteGroupRes = {
   success: boolean;
 };
+
+export type UpdateGroupRes = {
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+};
