@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getGroupsOptions } from "./query-option";
+import { getFirstGroupOptions, getGroupsOptions } from "./query-option";
 import {
   CreateGroupOptionPayload,
   CreateGroupPayload,
@@ -23,6 +23,8 @@ export const useGroups = () => {
     isError,
     data: groups = [],
   } = useQuery(getGroupsOptions());
+
+  const { data: firstGroup } = useQuery(getFirstGroupOptions());
 
   const createMutation = useMutation({
     mutationFn: (data: CreateGroupPayload) => createGroup(data),
@@ -85,6 +87,7 @@ export const useGroups = () => {
     isPending,
     isError,
     groups,
+    firstGroup,
     createMutation,
     deleteMutation,
     updateMutation,

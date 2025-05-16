@@ -25,6 +25,16 @@ async function getGroup(id) {
   return result[0];
 }
 
+async function getFirstGroup() {
+  const [result] = await pool.query(
+    "SELECT * FROM `group` ORDER BY title ASC LIMIT 1"
+  );
+  if (!result[0]) {
+    throw new Error("Group not found");
+  }
+  return result[0];
+}
+
 async function createGroup(title) {
   const uuid = crypto.randomUUID();
   const [result] = await pool.query(
@@ -64,6 +74,7 @@ async function updateGroup(id, newUpdates) {
 module.exports = {
   getGroups,
   getGroup,
+  getFirstGroup,
   createGroup,
   deleteGroup,
   updateGroup,

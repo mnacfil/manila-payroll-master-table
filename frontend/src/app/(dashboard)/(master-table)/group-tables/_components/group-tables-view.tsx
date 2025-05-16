@@ -20,10 +20,11 @@ const GroupTablesView = () => {
     useState(false);
   const toast = useRef<Toast | null>(null);
 
-  const { isPending, isError, groups } = useGroups();
+  const { isPending, isError, groups, firstGroup } = useGroups();
+
   const [group, setGroup] = useState<Omit<Group, "options">>({
-    id: "",
-    title: "",
+    id: firstGroup?.id || "",
+    title: firstGroup?.title || "",
   });
 
   if (isPending) {
