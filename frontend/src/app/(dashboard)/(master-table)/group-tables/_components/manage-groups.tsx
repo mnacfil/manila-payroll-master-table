@@ -16,9 +16,11 @@ import GroupForm from "./group-form";
 
 type Props = {
   groups: Group[];
+  onCreate: () => void;
+  onCancel: () => void;
 };
 
-const ManageGroups = ({ groups }: Props) => {
+const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
   const [selected, setSelected] = useState<Group | null>(null);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -116,6 +118,10 @@ const ManageGroups = ({ groups }: Props) => {
         mode="single"
         onSelected={(list) => {}}
       />
+      <div className="flex items-center justify-between mt-4">
+        <Button label="Close" outlined onClick={onCancel} />
+        <Button label="Create" icon="pi pi-plus" onClick={onCreate} />
+      </div>
       <Alert
         visible={openDeleteAlert}
         title="Are you absolutely sure?"

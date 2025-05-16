@@ -130,7 +130,7 @@ const GroupForm = ({
           )}
         />
         <div className="pt-2 flex justify-end gap-2">
-          <Button label="Cancel" outlined onClick={onCancel} />
+          <Button label="Cancel" outlined type="button" onClick={onCancel} />
           <Button
             type="submit"
             label={`${mode === "create" ? "Create Group" : "Save Changes"}`}

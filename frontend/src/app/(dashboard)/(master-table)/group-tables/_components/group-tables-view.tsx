@@ -72,7 +72,11 @@ const GroupTablesView = () => {
         onClose={() => setOpenManageGroupDialog(false)}
         renderedContent={
           <>
-            <ManageGroups groups={groups} />
+            <ManageGroups
+              groups={groups}
+              onCancel={() => setOpenManageGroupDialog(false)}
+              onCreate={() => setOpenCreateDialog(true)}
+            />
           </>
         }
       />
