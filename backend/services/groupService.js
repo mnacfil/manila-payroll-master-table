@@ -1,4 +1,5 @@
 const { pool, transaction } = require("../dbconfig");
+const crypto = require("crypto");
 
 async function getGroups() {
   const [result] = await pool.query(
@@ -25,11 +26,12 @@ async function getGroup(id) {
 }
 
 async function createGroup(title) {
+  const uuid = crypto.randomUUID();
   const [result] = await pool.query(
-    "INSERT INTO `group` (id, title) VALUES(UUID(), ?)",
-    [title]
+    "INSERT INTO `group` (id, title) VALUES(?, ?)",
+    [uuid, title]
   );
-  return { id: result.insertId, title };
+  return { id: uuid, title };
 }
 
 async function deleteGroup(id) {

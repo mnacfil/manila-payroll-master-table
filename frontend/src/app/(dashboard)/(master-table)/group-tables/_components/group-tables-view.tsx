@@ -5,7 +5,7 @@ import GroupTable from "./groub-table";
 import Dialog from "@/components/ui/dialog";
 import { useRef, useState } from "react";
 import { Toast } from "primereact/toast";
-import GroupTableForm from "./group-table-form";
+import GroupForm from "./group-form";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import ManageGroups from "./manage-groups";
@@ -83,9 +83,30 @@ const GroupTablesView = () => {
           if (!openCreateDialog) return;
           setOpenCreateDialog(false);
         }}
-        style={{ width: "50vw" }}
+        style={{ width: "30vw" }}
         onClose={() => setOpenCreateDialog(false)}
-        renderedContent={<GroupTableForm tabTitle={"Tab title"} />}
+        renderedContent={
+          <GroupForm
+            onCancel={() => setOpenCreateDialog(false)}
+            onSuccessCb={(response) => {
+              toast.current?.show({
+                severity: "success",
+                summary: "Success",
+                detail: `${response.title} group created successfully`,
+                life: 3000,
+              });
+              setOpenCreateDialog(false);
+            }}
+            onErrorCb={(error) => {
+              toast.current?.show({
+                severity: "error",
+                summary: "Error",
+                detail: error?.message || "Failed to create group",
+                life: 4000,
+              });
+            }}
+          />
+        }
       />
       <Toast ref={toast} />
     </>

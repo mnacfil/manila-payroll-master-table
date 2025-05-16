@@ -27,3 +27,38 @@ export const DashboardLinks = [
 ];
 
 export const DEFAULT_GROUP_ICON = "table";
+
+export const icons = [
+  {
+    name: "Building",
+    code: "building",
+  },
+  {
+    name: "Table",
+    code: "table",
+  },
+  {
+    name: "Calendar",
+    code: "calendar-minus",
+  },
+  {
+    name: "Briefcase",
+    code: "briefcase",
+  },
+  {
+    name: "Book",
+    code: "book",
+  },
+  {
+    name: "Card",
+    code: "credit-card",
+  },
+  {
+    name: "Expand",
+    code: "expand",
+  },
+  {
+    name: "Folder",
+    code: "folder",
+  },
+];

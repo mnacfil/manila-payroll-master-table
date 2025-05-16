@@ -8,7 +8,16 @@ export type Option = {
 export type Group = {
   id: string;
   title: string;
-  options: Option[];
+  options?: Option[];
 };
 
 export type GroupsRes = Group[];
+
+export type CreateGroupPayload = {
+  title: string;
+};
+
+export type CreateGroupRes = {
+  id: string;
+  title: string;
+};

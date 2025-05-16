@@ -118,9 +118,7 @@ const GroupTable = ({ groups }: Props) => {
               data={group.options || []}
               columns={columns}
               dataKey="id"
-              onSelected={(list) => {
-                //   onSelectedEmployees(list);
-              }}
+              onSelected={(list) => {}}
             />
           </TabPanel>
         ))}

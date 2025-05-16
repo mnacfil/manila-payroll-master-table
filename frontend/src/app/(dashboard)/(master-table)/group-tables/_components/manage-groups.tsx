@@ -93,7 +93,7 @@ const ManageGroups = ({ groups }: Props) => {
   ];
   return (
     <>
-      <div className="space-y-1">
+      <div className="space-y-1 mb-4">
         <h2 className="font-bold text-lg">Manage Groups</h2>
         <p className="text-gray-600 text-sm">
           Create, edit, or delete groups. Groups appear as tabs in the main
