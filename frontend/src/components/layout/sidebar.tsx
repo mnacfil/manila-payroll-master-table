@@ -2,6 +2,7 @@
 
 import { DashboardLinks } from "@/lib/constant";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Ripple } from "primereact/ripple";
 import { StyleClass } from "primereact/styleclass";
 import { useRef } from "react";
@@ -12,6 +13,7 @@ type Props = {
 
 const Sidebar = ({ otherClassName }: Props) => {
   const ref = useRef(null);
+  const pathname = usePathname();
 
   return (
     <aside className={`min-h-screen sticky w-[250px] ${otherClassName}`}>
@@ -44,13 +46,15 @@ const Sidebar = ({ otherClassName }: Props) => {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="p-ripple flex gap-2 items-center cursor-pointer p-3 border-round text-700 hover:surface-100 duration-300 transition-colors w-full"
+                        className={`p-ripple flex gap-2 items-center cursor-pointer p-3 border-round text-700 hover:font-bold duration-300 transition-colors w-full ${
+                          item.href === pathname && "font-bold "
+                        }`}
                       >
                         <i
                           className={`pi pi-${item.icon}`}
                           style={{ fontSize: "1rem" }}
                         ></i>
-                        <span className="font-medium line-clamp-1">
+                        <span className="text-sm line-clamp-1">
                           {item.label}
                         </span>
                         <Ripple />
