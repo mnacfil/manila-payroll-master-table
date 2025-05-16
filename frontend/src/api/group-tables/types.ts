@@ -21,3 +21,7 @@ export type CreateGroupRes = {
   id: string;
   title: string;
 };
+
+export type DeleteGroupRes = {
+  success: boolean;
+};

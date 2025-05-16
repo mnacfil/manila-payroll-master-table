@@ -1,12 +1,15 @@
 "use client";
 
 import { Group } from "@/api/group-tables/types";
+import Alert from "@/components/ui/alert";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
+import { useGroups } from "@/hooks/group-tables/useGroups";
 import { DEFAULT_GROUP_ICON } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 
 type Props = {
@@ -14,7 +17,10 @@ type Props = {
 };
 
 const ManageGroups = ({ groups }: Props) => {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState<Group | null>(null);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
+  const toast = useRef<Toast | null>(null);
+  const { deleteMutation } = useGroups();
   const columns: ColumnProps[] = [
     {
       header: "Icon",
@@ -33,7 +39,6 @@ const ManageGroups = ({ groups }: Props) => {
     },
     {
       header: "Action",
-      align: "center",
       body: (rowData: any) => {
         const op = useRef<OverlayPanel | null>(null);
         return (
@@ -42,6 +47,7 @@ const ManageGroups = ({ groups }: Props) => {
               op={op}
               content={
                 <div className="flex flex-col gap-1">
+                  <p className="mb-2">Group Action</p>
                   <Button
                     label="Edit"
                     icon="pi pi-pencil"
@@ -64,7 +70,7 @@ const ManageGroups = ({ groups }: Props) => {
                     style={{ width: "8rem" }}
                     onClick={() => {
                       setSelected(rowData);
-                      // setOpenDeleteAlert(true);
+                      setOpenDeleteAlert(true);
                       if (op.current) {
                         op.current.hide();
                       }
@@ -109,6 +115,52 @@ const ManageGroups = ({ groups }: Props) => {
           //   onSelectedEmployees(list);
         }}
       />
+      <Alert
+        visible={openDeleteAlert}
+        title="Are you absolutely sure?"
+        message={
+          <p>
+            This action will permanently delete
+            <strong>{` ${selected?.title} `}</strong> group. This action cannot
+            be undone.
+          </p>
+        }
+        onHide={() => {
+          setSelected(null);
+          setOpenDeleteAlert(false);
+        }}
+        onCancel={() => {
+          setSelected(null);
+          setOpenDeleteAlert(false);
+        }}
+        onContinue={() => {
+          if (selected) {
+            deleteMutation.mutate(selected?.id, {
+              onSuccess: () => {
+                if (toast.current) {
+                  toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "Group has beed removed.",
+                  });
+                }
+              },
+              onError: (error) => {
+                if (toast.current) {
+                  toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: error?.message || "Failed to delete group",
+                  });
+                }
+              },
+            });
+            setSelected(null);
+            setOpenDeleteAlert(false);
+          }
+        }}
+      />
+      <Toast ref={toast} />
     </>
   );
 };
