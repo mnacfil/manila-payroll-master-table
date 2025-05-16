@@ -62,7 +62,7 @@ const EmployeeForm = ({
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 w-full">
+    <>
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         {mode === "create" ? "Create" : "Edit"} Employee
       </h2>
@@ -205,7 +205,7 @@ const EmployeeForm = ({
           />
         </div>
       </form>
-    </div>
+    </>
   );
 };
 

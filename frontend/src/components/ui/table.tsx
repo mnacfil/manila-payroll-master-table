@@ -9,10 +9,17 @@ type Props = {
   data: any[];
   columns: ColumnProps[];
   dataKey: string;
+  mode?: "single" | "multiple";
   onSelected?: (list: Employee[]) => void;
 };
 
-const Table = ({ columns, data, dataKey, onSelected }: Props) => {
+const Table = ({
+  columns,
+  data,
+  dataKey,
+  onSelected,
+  mode = "multiple",
+}: Props) => {
   const [selected, setSelected] = useState([]);
   return (
     <DataTable
@@ -22,7 +29,9 @@ const Table = ({ columns, data, dataKey, onSelected }: Props) => {
       selectionMode={"checkbox"}
       selection={selected}
       emptyMessage={"No data"}
-      paginator
+      {...(data.length > 10 && {
+        paginator: true,
+      })}
       rows={10}
       rowsPerPageOptions={[10, 20, 30]}
       selectionPageOnly
@@ -31,11 +40,13 @@ const Table = ({ columns, data, dataKey, onSelected }: Props) => {
         setSelected(e.value);
       }}
     >
-      <Column
-        key={"multiple"}
-        selectionMode="multiple"
-        headerStyle={{ width: "3rem" }}
-      ></Column>
+      {mode === "multiple" && (
+        <Column
+          key={"multiple"}
+          selectionMode="multiple"
+          headerStyle={{ width: "3rem" }}
+        ></Column>
+      )}
       {columns.map((item, i) => (
         <Column
           key={item.field}

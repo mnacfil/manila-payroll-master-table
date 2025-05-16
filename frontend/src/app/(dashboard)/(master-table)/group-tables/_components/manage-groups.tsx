@@ -1,3 +1,5 @@
+"use client";
+
 import { Group } from "@/api/group-tables/types";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
@@ -5,28 +7,29 @@ import { DEFAULT_GROUP_ICON } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { TabPanel, TabView } from "primereact/tabview";
 import { useRef, useState } from "react";
 
 type Props = {
   groups: Group[];
 };
 
-const GroupTable = ({ groups }: Props) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
+const ManageGroups = ({ groups }: Props) => {
+  const [selected, setSelected] = useState(false);
   const columns: ColumnProps[] = [
     {
-      field: "code",
-      header: "Code ID",
+      header: "Icon",
+      body: () => (
+        <div className="flex justify-center">
+          <i
+            className={`pi pi-${DEFAULT_GROUP_ICON}`}
+            style={{ fontSize: "1rem" }}
+          ></i>
+        </div>
+      ),
     },
     {
-      field: "name",
-      header: "Name",
-    },
-    {
-      field: "description",
-      header: "Description",
+      field: "title",
+      header: "Title",
     },
     {
       header: "Action",
@@ -40,26 +43,13 @@ const GroupTable = ({ groups }: Props) => {
               content={
                 <div className="flex flex-col gap-1">
                   <Button
-                    label="View"
-                    icon="pi pi-eye"
-                    severity="info"
-                    text
-                    style={{ width: "8rem" }}
-                    onClick={() => {
-                      //   setSelected(rowData);
-                      if (op.current) {
-                        op.current.hide();
-                      }
-                    }}
-                  />
-                  <Button
                     label="Edit"
                     icon="pi pi-pencil"
                     severity="success"
                     text
                     style={{ width: "8rem" }}
                     onClick={() => {
-                      // setSelected(rowData);
+                      setSelected(rowData);
                       // setOpenEditDialog(true);
                       if (op.current) {
                         op.current.hide();
@@ -73,7 +63,7 @@ const GroupTable = ({ groups }: Props) => {
                     text
                     style={{ width: "8rem" }}
                     onClick={() => {
-                      // setSelected(rowData);
+                      setSelected(rowData);
                       // setOpenDeleteAlert(true);
                       if (op.current) {
                         op.current.hide();
@@ -101,32 +91,26 @@ const GroupTable = ({ groups }: Props) => {
       },
     },
   ];
-
   return (
     <>
-      <TabView
-        activeIndex={activeIndex}
-        onTabChange={(e) => setActiveIndex(e.index)}
-      >
-        {groups.map((group) => (
-          <TabPanel
-            key={group.id}
-            header={group.title}
-            leftIcon={`pi pi-${DEFAULT_GROUP_ICON} mr-2`}
-          >
-            <Table
-              data={group.options || []}
-              columns={columns}
-              dataKey="id"
-              onSelected={(list) => {
-                //   onSelectedEmployees(list);
-              }}
-            />
-          </TabPanel>
-        ))}
-      </TabView>
+      <div className="space-y-1">
+        <h2 className="font-bold text-lg">Manage Groups</h2>
+        <p className="text-gray-600 text-sm">
+          Create, edit, or delete groups. Groups appear as tabs in the main
+          interface
+        </p>
+      </div>
+      <Table
+        data={groups}
+        columns={columns}
+        dataKey="id"
+        mode="single"
+        onSelected={(list) => {
+          //   onSelectedEmployees(list);
+        }}
+      />
     </>
   );
 };
 
-export default GroupTable;
+export default ManageGroups;

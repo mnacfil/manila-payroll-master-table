@@ -25,3 +25,5 @@ export const DashboardLinks = [
     ],
   },
 ];
+
+export const DEFAULT_GROUP_ICON = "table";

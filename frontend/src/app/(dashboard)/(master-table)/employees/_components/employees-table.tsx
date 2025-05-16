@@ -177,8 +177,9 @@ const EmployeesTable = ({ onSelectedEmployees }: Props) => {
         }}
         position="center"
         style={{ width: "50vw" }}
-        content={
-          <div className="relative">
+        onClose={() => setOpenEditDialog(false)}
+        renderedContent={
+          <>
             <EmployeeForm
               mode="edit"
               defaultData={selected}
@@ -200,13 +201,7 @@ const EmployeesTable = ({ onSelectedEmployees }: Props) => {
                 });
               }}
             />
-            <i
-              role="button"
-              aria-label="close"
-              className="pi pi-times absolute top-5 right-5 cursor-pointer"
-              onClick={() => setOpenEditDialog(false)}
-            ></i>
-          </div>
+          </>
         }
       />
       <Alert

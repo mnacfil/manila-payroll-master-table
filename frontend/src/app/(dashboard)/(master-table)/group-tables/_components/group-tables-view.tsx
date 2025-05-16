@@ -6,39 +6,76 @@ import Dialog from "@/components/ui/dialog";
 import { useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import GroupTableForm from "./group-table-form";
+import { InputText } from "primereact/inputtext";
+import { Card } from "primereact/card";
+import ManageGroups from "./manage-groups";
+import { useGroups } from "@/hooks/group-tables/useGroups";
 
 const GroupTablesView = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [openManageGroupDialog, setOpenManageGroupDialog] = useState(false);
   const toast = useRef<Toast | null>(null);
+
+  const { isPending, isError, groups } = useGroups();
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error</p>;
+  }
+
   return (
     <>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">Group Tables</h1>
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold">Group Tables</h1>
+          <p className=" text-gray-500">
+            Manage groups and their options for your company.
+          </p>
+        </div>
+        <Button
+          label="Manage Groups"
+          icon="pi pi-cog"
+          outlined
+          onClick={() => setOpenManageGroupDialog(true)}
+        />
+      </div>
+      <div className="flex items-center justify-between mb-8 gap-12">
+        <InputText
+          placeholder="Search by name, code or description..."
+          className="w-full md:w-[500px]"
+        />
         <div className="flex items-center gap-2">
-          <Button onClick={() => setOpenCreateDialog(true)}>
-            <i className="pi pi-plus mr-2" style={{ fontSize: "0.875rem" }}></i>
-            <span className="font-medium">Create</span>
-          </Button>
+          <Button label="Filter" icon="pi pi-filter" outlined />
           <Button
-            severity="danger"
-            // disabled={selectedEmployees.length === 0}
+            label="Create"
+            icon="pi pi-plus"
             onClick={() => {
-              // if (selectedEmployees.length > 0) {
-              //   setOpenDeleteMultipleAlert(true);
-              // }
+              setOpenCreateDialog(true);
             }}
-          >
-            <i
-              className="pi pi-trash mr-2"
-              style={{ fontSize: "0.875rem" }}
-            ></i>
-            <span className="font-medium">Delete</span>
-          </Button>
+          />
         </div>
       </div>
-      <div className="mt-6">
-        <GroupTable />
-      </div>
+      <Card className="px-3 border border-b-[1px] border-gray-100">
+        <GroupTable groups={groups} />
+      </Card>
+
+      <Dialog
+        visible={openManageGroupDialog}
+        onHide={() => {
+          if (!openManageGroupDialog) return;
+          setOpenManageGroupDialog(false);
+        }}
+        style={{ width: "35vw" }}
+        onClose={() => setOpenManageGroupDialog(false)}
+        renderedContent={
+          <>
+            <ManageGroups groups={groups} />
+          </>
+        }
+      />
 
       <Dialog
         visible={openCreateDialog}
@@ -46,19 +83,9 @@ const GroupTablesView = () => {
           if (!openCreateDialog) return;
           setOpenCreateDialog(false);
         }}
-        position="center"
         style={{ width: "50vw" }}
-        content={
-          <div className="relative">
-            <GroupTableForm tabTitle={"Tab title"} />
-            <i
-              role="button"
-              aria-label="close"
-              className="pi pi-times absolute top-5 right-5 cursor-pointer"
-              onClick={() => setOpenCreateDialog(false)}
-            ></i>
-          </div>
-        }
+        onClose={() => setOpenCreateDialog(false)}
+        renderedContent={<GroupTableForm tabTitle={"Tab title"} />}
       />
       <Toast ref={toast} />
     </>

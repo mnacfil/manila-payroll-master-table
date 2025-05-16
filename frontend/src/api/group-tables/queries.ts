@@ -1,0 +1,26 @@
+"use server";
+
+import { apiConfig } from "../config";
+import { PATHS } from "../path";
+import { GroupsRes } from "./types";
+const { baseUrl } = apiConfig;
+
+export const getGroups = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/${PATHS.GROUPS}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      throw new Error(
+        errorData.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+    const data: GroupsRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error getting groups:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to get groups"
+    );
+  }
+};

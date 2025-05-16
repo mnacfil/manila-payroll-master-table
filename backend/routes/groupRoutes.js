@@ -7,7 +7,14 @@ router.get("/", async (req, res) => {
   try {
     const groups = await groupService.getGroups();
     const groupOptions = groups.reduce((acc, curr) => {
-      const { group_id, group_title, option_id, option_name } = curr;
+      const {
+        group_id,
+        group_title,
+        option_id,
+        option_name,
+        option_code,
+        option_description,
+      } = curr;
       if (!acc[group_id]) {
         acc[group_id] = {
           id: group_id,
@@ -20,6 +27,8 @@ router.get("/", async (req, res) => {
         acc[group_id].options.push({
           id: option_id,
           name: option_name,
+          code: option_code,
+          description: option_description,
         });
       }
 

@@ -61,8 +61,9 @@ const EmployeesView = () => {
         }}
         position="center"
         style={{ width: "50vw" }}
-        content={
-          <div className="relative">
+        onClose={() => setOpenCreateDialog(false)}
+        renderedContent={
+          <>
             <EmployeeForm
               onSuccessCb={() => {
                 setOpenCreateDialog(false);
@@ -82,13 +83,7 @@ const EmployeesView = () => {
                 });
               }}
             />
-            <i
-              role="button"
-              aria-label="close"
-              className="pi pi-times absolute top-5 right-5 cursor-pointer"
-              onClick={() => setOpenCreateDialog(false)}
-            ></i>
-          </div>
+          </>
         }
       />
       <Alert

@@ -6,7 +6,9 @@ async function getGroups() {
       g.id AS group_id, 
       g.title AS group_title, 
       o.id AS option_id, 
-      o.name AS option_name 
+      o.name AS option_name,
+      o.code_id AS option_code,
+      o.description AS option_description 
     FROM \`group\` g 
     LEFT JOIN \`option\` o ON g.id = o.group_id 
     ORDER BY g.title`
