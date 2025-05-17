@@ -102,7 +102,13 @@ DB_PASSWORD=<your-password>
 DB_NAME=payroll
 ```
 
-5. Start the server:
+5. Run the command below to create sample rows for groups,employees and options
+
+```bash
+  node seed.js
+```
+
+6. Start the server:
 
 ```bash
 nodemon bin/www
