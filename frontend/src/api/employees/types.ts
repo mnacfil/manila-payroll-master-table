@@ -6,13 +6,15 @@ export type Employee = {
   date_hired: string;
   salary: string;
   active: number;
+  position: string;
+  department: string;
   created_at: string;
   updated_at: string;
 };
 
-export type CreateEmployeePayload = Pick<
+export type CreateEmployeePayload = Omit<
   Employee,
-  "first_name" | "last_name" | "date_hired" | "email" | "salary" | "active"
+  "created_at" | "updated_at" | "emp_id"
 >;
 
 export type CreateEmployeeRes = Omit<Employee, "created_at" | "updated_at">;

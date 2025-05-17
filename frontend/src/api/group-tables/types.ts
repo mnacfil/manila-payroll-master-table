@@ -63,3 +63,5 @@ export type UpdateOptionRes = {
 };
 
 export type DeleteOptionParams = Omit<UpdateOptionParams, "payload">;
+
+export type GetGroupOptionsRes = UpdateOptionRes[];

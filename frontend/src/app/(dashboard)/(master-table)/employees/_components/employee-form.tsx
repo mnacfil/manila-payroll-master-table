@@ -7,6 +7,9 @@ import { Calendar } from "primereact/calendar";
 import { InputNumber } from "primereact/inputnumber";
 import { CreateEmployeePayload, Employee } from "@/api/employees/types";
 import { useEmployees } from "@/hooks/employees/useEmployees";
+import { Dropdown } from "primereact/dropdown";
+import { useGroups } from "@/hooks/group-tables/useGroups";
+import { GetGroupOptionsRes } from "@/api/group-tables/types";
 
 type Props = {
   mode?: "create" | "edit";
@@ -22,6 +25,8 @@ const EmployeeForm = ({
   mode = "create",
 }: Props) => {
   const { createMutation, updateMutation } = useEmployees();
+  const { deptOptions, posOptions } = useGroups();
+
   const {
     register,
     handleSubmit,
@@ -35,8 +40,20 @@ const EmployeeForm = ({
       first_name: defaultData?.first_name || "",
       last_name: defaultData?.last_name || "",
       salary: defaultData?.salary || "",
+      position: "",
+      department: "",
     },
   });
+  const departments = deptOptions.map((dept) => ({
+    name: dept.name,
+    code: dept.code_id,
+  }));
+
+  const positions = posOptions.map((pos) => ({
+    name: pos.name,
+    code: pos.code_id,
+  }));
+
   const onSubmit = async (data: CreateEmployeePayload) => {
     if (mode === "create") {
       createMutation.mutate(data, {
@@ -129,6 +146,71 @@ const EmployeeForm = ({
           {errors.email && (
             <p className="text-sm text-red-600">{errors.email.message}</p>
           )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Controller
+            name="position"
+            control={control}
+            rules={{ required: "Position is required" }}
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                <label
+                  htmlFor="date_hired"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Position*
+                </label>
+                <Dropdown
+                  value={field.value}
+                  options={positions}
+                  onChange={(e) => field.onChange(e.value)}
+                  placeholder={"Select position"}
+                  optionLabel="name"
+                  optionValue="code"
+                  className={`w-full ${
+                    fieldState.error ? "border-red-500" : ""
+                  }`}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-600">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+          <Controller
+            name="department"
+            control={control}
+            rules={{ required: "Department is required" }}
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                <label
+                  htmlFor="date_hired"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Department*
+                </label>
+                <Dropdown
+                  value={field.value}
+                  options={departments}
+                  onChange={(e) => field.onChange(e.value)}
+                  placeholder={"Select position"}
+                  optionLabel="name"
+                  optionValue="code"
+                  className={`w-full ${
+                    fieldState.error ? "border-red-500" : ""
+                  }`}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-600">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

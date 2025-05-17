@@ -22,10 +22,9 @@ const EmployeesView = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openDeleteMultipleAlert, setOpenDeleteMultipleAlert] = useState(false);
   const [selectedEmployees, setSelectedEmployees] = useState<Employee[]>([]);
-  const { deleteMutation, deleteMultipleMutation } = useEmployees();
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-
   const [filters, setFilters] = useState(employeeInitFilters);
+  const { deleteMutation, deleteMultipleMutation } = useEmployees();
 
   const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -113,7 +112,7 @@ const EmployeesView = () => {
       <Dialog
         visible={openCreateDialog}
         position="center"
-        style={{ width: "50vw" }}
+        style={{ width: "40vw" }}
         onHide={() => setOpenCreateDialog(false)}
         onClose={() => setOpenCreateDialog(false)}
         renderedContent={

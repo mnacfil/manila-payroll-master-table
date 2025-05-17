@@ -1,5 +1,10 @@
 import { groupTablesKeys } from "@/api/group-tables/groupKeys";
-import { getFirstGroup, getGroups } from "@/api/group-tables/queries";
+import {
+  getFirstGroup,
+  getGroupOptions as _getGroupOptions,
+  getGroups,
+  getGroupOptions,
+} from "@/api/group-tables/queries";
 import { queryOptions } from "@tanstack/react-query";
 
 export const getGroupsOptions = () =>
@@ -12,4 +17,10 @@ export const getFirstGroupOptions = () =>
   queryOptions({
     queryKey: groupTablesKeys.firstGroup,
     queryFn: getFirstGroup,
+  });
+
+export const getGroupsOptionsForSelect = (id: string) =>
+  queryOptions({
+    queryKey: groupTablesKeys.getGroupOptions(id),
+    queryFn: () => getGroupOptions(id),
   });

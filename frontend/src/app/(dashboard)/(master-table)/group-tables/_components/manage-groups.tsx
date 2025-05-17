@@ -6,7 +6,11 @@ import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { useGroups } from "@/hooks/group-tables/useGroups";
-import { DEFAULT_GROUP_ICON } from "@/lib/constant";
+import {
+  DEFAULT_GROUP_ICON,
+  DEPARTMENT_GRP_ID,
+  POSITION_GRP_ID,
+} from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
@@ -59,6 +63,9 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
                     severity="success"
                     text
                     style={{ width: "8rem" }}
+                    disabled={[DEPARTMENT_GRP_ID, POSITION_GRP_ID].includes(
+                      rowData?.id
+                    )}
                     onClick={() => {
                       setSelected(rowData);
                       setOpenEditDialog(true);
@@ -73,6 +80,9 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
                     severity="danger"
                     text
                     style={{ width: "8rem" }}
+                    disabled={[DEPARTMENT_GRP_ID, POSITION_GRP_ID].includes(
+                      rowData?.id
+                    )}
                     onClick={() => {
                       setSelected(rowData);
                       setOpenDeleteAlert(true);

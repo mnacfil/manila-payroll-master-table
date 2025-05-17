@@ -115,6 +115,16 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
       sortable: true,
     },
     {
+      field: "position",
+      header: "Position",
+      sortable: true,
+    },
+    {
+      field: "department",
+      header: "Department",
+      sortable: true,
+    },
+    {
       field: "date_hired",
       header: "Date Hired",
       dataType: "date",

@@ -28,6 +28,10 @@ export const DashboardLinks = [
   },
 ];
 
+export const ONE_MINUTE = 60 * 1000;
+export const DEPARTMENT_GRP_ID = "97692a4a-3167-11f0-ac50-d345de8915cd";
+export const POSITION_GRP_ID = "830f7482-5499-499f-a8ec-cd04bcb26371";
+
 export const DEFAULT_GROUP_ICON = "table";
 
 export const icons = [
@@ -79,6 +83,14 @@ export const employeeInitFilters = {
     operator: FilterOperator.AND,
     constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
   },
+  position: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  department: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
   salary: {
     operator: FilterOperator.AND,
     constraints: [{ value: "", matchMode: FilterMatchMode.STARTS_WITH }],
@@ -93,6 +105,8 @@ export const employeeGlobalFilterFields = [
   "first_name",
   "last_name",
   "email",
+  "position",
+  "department",
   "salary",
   "date_hired",
 ];
