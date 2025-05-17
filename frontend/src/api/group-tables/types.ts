@@ -2,7 +2,7 @@ export type Option = {
   id: string;
   name: string;
   code: string;
-  desciption: string;
+  description: string;
 };
 
 export type Group = {

@@ -63,7 +63,7 @@ const GroupTablesView = () => {
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
             placeholder="Search by code, name or description"
-            className="w-full lg:w-72"
+            className="w-full lg:w-80"
           />
         </IconField>
       </div>

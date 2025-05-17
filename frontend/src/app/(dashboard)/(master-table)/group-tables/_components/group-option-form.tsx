@@ -33,11 +33,11 @@ const GroupOptionForm = ({
     formState: { errors },
     reset,
     handleSubmit,
-  } = useForm({
+  } = useForm<Option>({
     defaultValues: {
       code: mode === "edit" ? defaultGroupOption?.code : "",
       name: mode === "edit" ? defaultGroupOption?.name : "",
-      description: mode === "edit" ? defaultGroupOption?.desciption : "",
+      description: mode === "edit" ? defaultGroupOption?.description : "",
     },
   });
   const { createOptionMutation, updateOptionMutation } = useGroups({});
