@@ -34,7 +34,7 @@ const GroupTable = ({
   const [selected, setSelected] = useState<Option | null>(null);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
 
-  const { deleteOptionMutation } = useGroups({});
+  const { deleteOptionMutation } = useGroups();
 
   const columns: ColumnProps[] = [
     {

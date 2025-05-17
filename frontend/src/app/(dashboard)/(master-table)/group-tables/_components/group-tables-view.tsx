@@ -71,7 +71,7 @@ const GroupTablesView = () => {
   };
 
   const header = renderHeader();
-  const { isPending, isError, groups, firstGroup } = useGroups({});
+  const { isPending, isError, groups, firstGroup } = useGroups();
 
   const [group, setGroup] = useState<Omit<Group, "options">>({
     id: firstGroup?.id || "",
@@ -105,7 +105,7 @@ const GroupTablesView = () => {
           <Button
             icon="pi pi-plus"
             text
-            tooltip="Create New Group"
+            tooltip="Create Group"
             tooltipOptions={{ position: "top" }}
             aria-label="Create"
             onClick={() => {
@@ -118,6 +118,7 @@ const GroupTablesView = () => {
         <Button
           label="Create"
           icon="pi pi-plus"
+          tooltip="Create Option"
           onClick={() => {
             setGroupFormState({ mode: "create", default: null });
             setOpenGroupFormDialog(true);

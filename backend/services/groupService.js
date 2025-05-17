@@ -35,6 +35,13 @@ async function getFirstGroup() {
   return result[0];
 }
 
+async function getDefaultGroups() {
+  const [result] = await pool.query(
+    "SELECT * FROM `group` WHERE title IN ('Department', 'Position') ORDER BY title"
+  );
+  return result;
+}
+
 async function createGroup(title) {
   const uuid = crypto.randomUUID();
   const [result] = await pool.query(
@@ -75,6 +82,7 @@ module.exports = {
   getGroups,
   getGroup,
   getFirstGroup,
+  getDefaultGroups,
   createGroup,
   deleteGroup,
   updateGroup,

@@ -15,14 +15,7 @@ import { InputText } from "primereact/inputtext";
 import { employeeGlobalFilterFields } from "@/lib/constant";
 import { useEmployeesFilter } from "@/hooks/employees/useEmployeesFilter";
 
-type Props = {
-  initialGroupIDs: {
-    department: string;
-    position: string;
-  };
-};
-
-const EmployeesView = ({ initialGroupIDs }: Props) => {
+const EmployeesView = () => {
   const toast = useRef<Toast | null>(null);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openDeleteMultipleAlert, setOpenDeleteMultipleAlert] = useState(false);
@@ -93,7 +86,6 @@ const EmployeesView = ({ initialGroupIDs }: Props) => {
 
       <div className="mt-6 h-full py-10">
         <EmployeesTable
-          initialGroupIDs={initialGroupIDs}
           onSelectedEmployees={setSelectedEmployees}
           tableProps={{
             header,
@@ -112,7 +104,6 @@ const EmployeesView = ({ initialGroupIDs }: Props) => {
         onClose={() => setOpenCreateDialog(false)}
         renderedContent={
           <EmployeeForm
-            initialGroupIDs={initialGroupIDs}
             onSuccessCb={() => {
               setOpenCreateDialog(false);
               toast.current?.show({

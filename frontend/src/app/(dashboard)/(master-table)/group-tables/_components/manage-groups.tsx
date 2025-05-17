@@ -25,7 +25,7 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const toast = useRef<Toast | null>(null);
-  const { deleteMutation } = useGroups({});
+  const { deleteMutation } = useGroups();
   const columns: ColumnProps[] = [
     {
       header: "Icon",

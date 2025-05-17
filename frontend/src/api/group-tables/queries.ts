@@ -66,3 +66,23 @@ export const getGroupOptions = async (id: string) => {
     );
   }
 };
+
+export const getDefaultGroups = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/${PATHS.DEFAULT_GROUPS}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      throw new Error(
+        errorData.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+    const data: UpdateGroupRes[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error getting default groups", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to get default groups"
+    );
+  }
+};

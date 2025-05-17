@@ -4,6 +4,7 @@ import {
   getGroupOptions as _getGroupOptions,
   getGroups,
   getGroupOptions,
+  getDefaultGroups,
 } from "@/api/group-tables/queries";
 import { queryOptions } from "@tanstack/react-query";
 
@@ -23,4 +24,10 @@ export const getGroupsOptionsForSelect = (id: string) =>
   queryOptions({
     queryKey: groupTablesKeys.getGroupOptions(id),
     queryFn: () => getGroupOptions(id),
+  });
+
+export const getDefaultGroupsOptions = () =>
+  queryOptions({
+    queryKey: groupTablesKeys.defaultGroups,
+    queryFn: () => getDefaultGroups(),
   });

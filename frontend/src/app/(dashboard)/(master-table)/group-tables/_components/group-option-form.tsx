@@ -40,7 +40,7 @@ const GroupOptionForm = ({
       description: mode === "edit" ? defaultGroupOption?.description : "",
     },
   });
-  const { createOptionMutation, updateOptionMutation } = useGroups({});
+  const { createOptionMutation, updateOptionMutation } = useGroups();
   const onSubmit = (values: any) => {
     if (mode === "create") {
       createOptionMutation.mutate(

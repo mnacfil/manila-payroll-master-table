@@ -35,7 +35,7 @@ const GroupForm = ({
       icon: DEFAULT_GROUP_ICON,
     },
   });
-  const { createMutation, updateMutation } = useGroups({});
+  const { createMutation, updateMutation } = useGroups();
 
   const onSubmit = (values: any) => {
     if (mode === "create") {

@@ -35,18 +35,10 @@ const statuses = [1, 0];
 
 type Props = {
   tableProps?: DataTableBaseProps<any>;
-  initialGroupIDs: {
-    department: string;
-    position: string;
-  };
   onSelectedEmployees: (employees: Employee[]) => void;
 };
 
-const EmployeesTable = ({
-  initialGroupIDs,
-  onSelectedEmployees,
-  tableProps = {},
-}: Props) => {
+const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
@@ -264,7 +256,6 @@ const EmployeesTable = ({
         renderedContent={
           <>
             <EmployeeForm
-              initialGroupIDs={initialGroupIDs}
               mode="edit"
               defaultData={selected}
               onSuccessCb={() => {

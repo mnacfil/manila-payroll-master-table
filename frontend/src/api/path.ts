@@ -3,4 +3,5 @@ export enum PATHS {
   GROUPS = "groups",
   OPTIONS = "options",
   FIRST_GROUP = "first-group",
+  DEFAULT_GROUPS = "default-groups",
 }

@@ -11,4 +11,13 @@ router.get("/first-group", async (req, res) => {
   }
 });
 
+router.get("/default-groups", async (req, res) => {
+  try {
+    const response = await groupService.getDefaultGroups();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error?.message || "Server error" });
+  }
+});
+
 module.exports = router;

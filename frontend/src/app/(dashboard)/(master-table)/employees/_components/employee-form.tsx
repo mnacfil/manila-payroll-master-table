@@ -14,27 +14,18 @@ import { employeeStatus } from "@/lib/constant";
 type Props = {
   mode?: "create" | "edit";
   defaultData?: Employee | null;
-  initialGroupIDs: {
-    department: string;
-    position: string;
-  };
   onSuccessCb?: () => void;
   onErrorCb?: (error: Error) => void;
 };
 
 const EmployeeForm = ({
   defaultData,
-  initialGroupIDs,
   onErrorCb,
   onSuccessCb,
   mode = "create",
 }: Props) => {
   const { createMutation, updateMutation } = useEmployees();
-  const { deptOptions, posOptions } = useGroups({
-    deptId: initialGroupIDs.department,
-    posId: initialGroupIDs.position,
-  });
-
+  const { groups, defaultGroups } = useGroups();
   const {
     register,
     handleSubmit,
@@ -53,15 +44,21 @@ const EmployeeForm = ({
       active: Number(defaultData?.active) || 1,
     },
   });
-  const departments = deptOptions.map((dept) => ({
-    name: dept.name,
-    code: dept.code_id,
-  }));
 
-  const positions = posOptions.map((pos) => ({
-    name: pos.name,
-    code: pos.code_id,
-  }));
+  const departmentGroup = groups.find((g) => g.id === defaultGroups[0]?.id);
+  const positionGroup = groups.find((g) => g.id === defaultGroups[1]?.id);
+
+  const departments =
+    departmentGroup?.options?.map((opt) => ({
+      name: opt.name,
+      code: opt.code,
+    })) || [];
+
+  const positions =
+    positionGroup?.options?.map((opt) => ({
+      name: opt.name,
+      code: opt.code,
+    })) || [];
 
   const onSubmit = async (data: CreateEmployeePayload) => {
     if (mode === "create") {
