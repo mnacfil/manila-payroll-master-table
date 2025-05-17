@@ -12,6 +12,9 @@ import ManageGroups from "./manage-groups";
 import { useGroups } from "@/hooks/group-tables/useGroups";
 import GroupOptionForm from "./group-option-form";
 import { Group, Option } from "@/api/group-tables/types";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { groupGlobalFilterFields, groupInitFilters } from "@/lib/constant";
 
 const GroupTablesView = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -25,6 +28,49 @@ const GroupTablesView = () => {
     default: null,
   });
   const toast = useRef<Toast | null>(null);
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
+
+  const [filters, setFilters] = useState(groupInitFilters);
+
+  const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setGlobalFilterValue(value);
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      global: { ...prevFilters.global, value },
+    }));
+  };
+
+  const clearFilter = () => {
+    setGlobalFilterValue("");
+    setFilters(groupInitFilters);
+  };
+
+  const renderHeader = () => {
+    return (
+      <div className="flex justify-end gap-2">
+        <Button
+          type="button"
+          icon="pi pi-filter-slash"
+          label="Clear"
+          outlined
+          onClick={clearFilter}
+        />
+        <IconField iconPosition="left">
+          <InputIcon className="pi pi-search" />
+          <InputText
+            value={globalFilterValue}
+            onChange={onGlobalFilterChange}
+            placeholder="Search by code, name or description"
+            className="w-full lg:w-72"
+          />
+        </IconField>
+      </div>
+    );
+  };
+
+  const header = renderHeader();
   const { isPending, isError, groups, firstGroup } = useGroups();
 
   const [group, setGroup] = useState<Omit<Group, "options">>({
@@ -68,27 +114,35 @@ const GroupTablesView = () => {
           />
         </div>
       </div>
-      <div className="flex items-center justify-between mb-8 gap-12">
-        <InputText
-          placeholder="Search by name, code or description..."
-          className="w-full md:w-[500px]"
+      <div className="flex items-center justify-end mb-8 gap-2">
+        <Button
+          label="Create"
+          icon="pi pi-plus"
+          onClick={() => {
+            setGroupFormState({ mode: "create", default: null });
+            setOpenGroupFormDialog(true);
+          }}
         />
-        <div className="flex items-center gap-2">
-          <Button label="Filter" icon="pi pi-filter" outlined />
-          <Button
-            label="Create"
-            icon="pi pi-plus"
-            onClick={() => {
-              setGroupFormState({ mode: "create", default: null });
-              setOpenGroupFormDialog(true);
-            }}
-          />
-        </div>
+        <Button
+          label="Delete"
+          icon="pi pi-trash"
+          severity="danger"
+          onClick={() => {
+            // setGroupFormState({ mode: "create", default: null });
+            // setOpenGroupFormDialog(true);
+          }}
+        />
       </div>
       <Card className="px-3 border border-b-[1px] border-gray-100">
         <GroupTable
           groupId={group.id}
           groups={groups}
+          tableProps={{
+            header,
+            filters,
+            globalFilterFields: groupGlobalFilterFields,
+            onFilter: (e: any) => setFilters(e.filters),
+          }}
           onSelectTab={(tab) => setGroup(tab)}
           onSelectOption={(option) => {
             setOpenGroupFormDialog(true);

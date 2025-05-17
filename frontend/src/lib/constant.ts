@@ -96,3 +96,21 @@ export const employeeGlobalFilterFields = [
   "salary",
   "date_hired",
 ];
+
+export const groupInitFilters = {
+  global: { value: "", matchMode: FilterMatchMode.CONTAINS },
+  code_id: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  name: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  description: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+};
+
+export const groupGlobalFilterFields = ["code_id", "name", "description"];

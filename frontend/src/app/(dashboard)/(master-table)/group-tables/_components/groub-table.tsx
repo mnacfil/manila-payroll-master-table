@@ -6,6 +6,7 @@ import { useGroups } from "@/hooks/group-tables/useGroups";
 import { DEFAULT_GROUP_ICON } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
+import { DataTableBaseProps } from "primereact/datatable";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { TabPanel, TabView } from "primereact/tabview";
 import { useRef, useState } from "react";
@@ -17,11 +18,13 @@ type Props = {
   onSelectOption: (option: Option) => void;
   onSuccessCb: () => void;
   onErrorCb: (error: Error) => void;
+  tableProps?: DataTableBaseProps<any>;
 };
 
 const GroupTable = ({
   groupId,
   groups,
+  tableProps,
   onSelectTab,
   onSelectOption,
   onSuccessCb,
@@ -37,14 +40,17 @@ const GroupTable = ({
     {
       field: "code",
       header: "Code ID",
+      sortable: true,
     },
     {
       field: "name",
       header: "Name",
+      sortable: true,
     },
     {
       field: "description",
       header: "Description",
+      sortable: true,
     },
     {
       header: "Action",
@@ -129,8 +135,9 @@ const GroupTable = ({
             <Table
               data={group.options || []}
               columns={columns}
-              dataKey="id"
               onSelected={(list) => {}}
+              {...tableProps}
+              dataKey="id"
             />
           </TabPanel>
         ))}
