@@ -105,7 +105,8 @@ const EmployeeForm = ({
               {...register("first_name", {
                 required: "First name is required",
               })}
-              className={`w-full ${errors.first_name ? "border-red-500" : ""}`}
+              className="w-full"
+              invalid={(errors?.first_name as any) || false}
             />
             {errors.first_name && (
               <p className="text-sm text-red-600">
@@ -124,7 +125,8 @@ const EmployeeForm = ({
             <InputText
               id="last_name"
               {...register("last_name", { required: "Last name is required" })}
-              className={`w-full ${errors.last_name ? "border-red-500" : ""}`}
+              className="w-full"
+              invalid={(errors?.last_name as any) || false}
             />
             {errors.last_name && (
               <p className="text-sm text-red-600">{errors.last_name.message}</p>
@@ -148,7 +150,8 @@ const EmployeeForm = ({
                 message: "Invalid email address",
               },
             })}
-            className={`w-full ${errors.email ? "border-red-500" : ""}`}
+            className="w-full"
+            invalid={(errors?.email as any) || false}
           />
           {errors.email && (
             <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -175,9 +178,8 @@ const EmployeeForm = ({
                   placeholder={"Select position"}
                   optionLabel="name"
                   optionValue="code"
-                  className={`w-full ${
-                    fieldState.error ? "border-red-500" : ""
-                  }`}
+                  className="w-full"
+                  invalid={(fieldState?.error as any) || false}
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-600">
@@ -203,12 +205,11 @@ const EmployeeForm = ({
                   value={field.value}
                   options={departments}
                   onChange={(e) => field.onChange(e.value)}
-                  placeholder={"Select position"}
+                  placeholder={"Select department"}
                   optionLabel="name"
                   optionValue="code"
-                  className={`w-full ${
-                    fieldState.error ? "border-red-500" : ""
-                  }`}
+                  className="w-full"
+                  invalid={(fieldState?.error as any) || false}
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-600">
@@ -238,10 +239,10 @@ const EmployeeForm = ({
                   value={field.value ? new Date(field.value) : null}
                   onChange={(e) => field.onChange(e.value)}
                   dateFormat="yy-mm-dd"
+                  placeholder="05-17-2025"
                   showIcon
-                  className={`w-full ${
-                    fieldState.error ? "border-red-500" : ""
-                  }`}
+                  className="w-full "
+                  invalid={(fieldState?.error as any) || false}
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-600">
@@ -271,9 +272,8 @@ const EmployeeForm = ({
                   mode="currency"
                   currency="PHP"
                   locale="en-US"
-                  className={`w-full ${
-                    fieldState.error ? "border-red-500" : ""
-                  }`}
+                  className="w-full"
+                  invalid={(fieldState?.error as any) || false}
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-600">

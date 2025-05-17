@@ -97,7 +97,8 @@ const GroupForm = ({
             {...register("name", {
               required: "Group Name is required",
             })}
-            className={`w-full ${errors.name ? "border-red-500" : ""}`}
+            className="w-full"
+            invalid={(errors?.name as any) || false}
           />
           {errors.name && (
             <p className="text-sm text-red-600">{errors.name.message}</p>

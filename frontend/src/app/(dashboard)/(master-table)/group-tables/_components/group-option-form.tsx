@@ -106,7 +106,8 @@ const GroupOptionForm = ({
             {...register("code", {
               required: "Group Name is required",
             })}
-            className={`w-full ${errors.code ? "border-red-500" : ""}`}
+            className="w-full"
+            invalid={(errors?.code as any) || false}
           />
           {errors.code && (
             <p className="text-sm text-red-600">{errors.code.message}</p>
@@ -125,7 +126,8 @@ const GroupOptionForm = ({
             {...register("name", {
               required: "Name is required",
             })}
-            className={`w-full ${errors.name ? "border-red-500" : ""}`}
+            className="w-full"
+            invalid={(errors?.name as any) || false}
           />
           {errors.name && (
             <p className="text-sm text-red-600">{errors.name.message}</p>
