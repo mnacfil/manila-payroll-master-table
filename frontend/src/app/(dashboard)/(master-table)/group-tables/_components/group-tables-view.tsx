@@ -11,15 +11,20 @@ import { Card } from "primereact/card";
 import ManageGroups from "./manage-groups";
 import { useGroups } from "@/hooks/group-tables/useGroups";
 import GroupOptionForm from "./group-option-form";
-import { Group } from "@/api/group-tables/types";
+import { Group, Option } from "@/api/group-tables/types";
 
 const GroupTablesView = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openManageGroupDialog, setOpenManageGroupDialog] = useState(false);
-  const [openCreateGroupOptionDialog, setOpenCreateGroupOptionDialog] =
-    useState(false);
+  const [openGroupFormDialog, setOpenGroupFormDialog] = useState(false);
+  const [groupFormState, setGroupFormState] = useState<{
+    mode: "create" | "edit";
+    default: Option | null;
+  }>({
+    mode: "create",
+    default: null,
+  });
   const toast = useRef<Toast | null>(null);
-
   const { isPending, isError, groups, firstGroup } = useGroups();
 
   const [group, setGroup] = useState<Omit<Group, "options">>({
@@ -74,13 +79,21 @@ const GroupTablesView = () => {
             label="Create"
             icon="pi pi-plus"
             onClick={() => {
-              setOpenCreateGroupOptionDialog(true);
+              setGroupFormState({ mode: "create", default: null });
+              setOpenGroupFormDialog(true);
             }}
           />
         </div>
       </div>
       <Card className="px-3 border border-b-[1px] border-gray-100">
-        <GroupTable groups={groups} onSelectTab={(tab) => setGroup(tab)} />
+        <GroupTable
+          groups={groups}
+          onSelectTab={(tab) => setGroup(tab)}
+          onSelectOption={(option) => {
+            setOpenGroupFormDialog(true);
+            setGroupFormState({ mode: "edit", default: option });
+          }}
+        />
       </Card>
 
       <Dialog
@@ -135,31 +148,39 @@ const GroupTablesView = () => {
       />
 
       <Dialog
-        visible={openCreateGroupOptionDialog}
+        visible={openGroupFormDialog}
         onHide={() => {
-          if (!openCreateGroupOptionDialog) return;
-          setOpenCreateGroupOptionDialog(false);
+          if (!openGroupFormDialog) return;
+          setOpenGroupFormDialog(false);
         }}
         style={{ width: "30vw" }}
-        onClose={() => setOpenCreateGroupOptionDialog(false)}
+        onClose={() => setOpenGroupFormDialog(false)}
         renderedContent={
           <GroupOptionForm
+            mode={groupFormState.mode}
+            defaultGroupOption={groupFormState.default}
             group={group}
-            onCancel={() => setOpenCreateGroupOptionDialog(false)}
+            onCancel={() => setOpenGroupFormDialog(false)}
             onSuccessCb={(response) => {
               toast.current?.show({
                 severity: "success",
                 summary: "Success",
-                detail: `${response.name} option created successfully`,
+                detail: `${response.name} option ${
+                  groupFormState.mode === "create" ? "created" : "updated"
+                } successfully`,
                 life: 3000,
               });
-              setOpenCreateGroupOptionDialog(false);
+              setOpenGroupFormDialog(false);
             }}
             onErrorCb={(error) => {
               toast.current?.show({
                 severity: "error",
                 summary: "Error",
-                detail: error?.message || "Failed to create option",
+                detail:
+                  error?.message ||
+                  `Failed to ${
+                    groupFormState.mode === "create" ? "created" : "updated"
+                  } option`,
                 life: 4000,
               });
             }}

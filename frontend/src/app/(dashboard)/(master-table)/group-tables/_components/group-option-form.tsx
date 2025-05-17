@@ -5,6 +5,7 @@ import {
   CreateGroupRes,
   Group,
   Option,
+  UpdateOptionRes,
 } from "@/api/group-tables/types";
 import { useGroups } from "@/hooks/group-tables/useGroups";
 import { Button } from "primereact/button";
@@ -15,7 +16,7 @@ type Props = {
   mode?: "create" | "edit";
   defaultGroupOption?: Option | null;
   group: Omit<Group, "options">;
-  onSuccessCb: (response: CreateGroupOptionRes) => void;
+  onSuccessCb: (response: CreateGroupOptionRes | UpdateOptionRes) => void;
   onErrorCb: (error: Error) => void;
   onCancel: () => void;
 };
@@ -73,7 +74,7 @@ const GroupOptionForm = ({
         {
           onSuccess: (response) => {
             reset();
-            // onSuccessCb(response);
+            onSuccessCb(response);
           },
           onError: (error) => {
             onErrorCb(error);
@@ -86,8 +87,12 @@ const GroupOptionForm = ({
   return (
     <div className="bg-white rounded-lg p-6 w-full">
       <div className="space-y-1 mb-4">
-        <h2 className="font-bold text-lg">Create {group.title}</h2>
-        <p className="text-gray-600 text-sm">Add a new option to this group.</p>
+        <h2 className="font-bold text-lg">
+          {mode === "create" ? "Create" : "Edit"} {group.title}
+        </h2>
+        <p className="text-gray-600 text-sm">
+          {mode === "create" ? "Add" : "Update"} option to this group.
+        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1">

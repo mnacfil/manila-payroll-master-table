@@ -11,9 +11,10 @@ import { useRef, useState } from "react";
 type Props = {
   groups: Group[];
   onSelectTab: (group: Omit<Group, "options">) => void;
+  onSelectOption: (option: Option) => void;
 };
 
-const GroupTable = ({ groups, onSelectTab }: Props) => {
+const GroupTable = ({ groups, onSelectTab, onSelectOption }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selected, setSelected] = useState<Option | null>(null);
   const columns: ColumnProps[] = [
@@ -49,7 +50,7 @@ const GroupTable = ({ groups, onSelectTab }: Props) => {
                     style={{ width: "8rem" }}
                     onClick={() => {
                       setSelected(rowData);
-                      // setOpenEditDialog(true);
+                      onSelectOption(rowData);
                       if (op.current) {
                         op.current.hide();
                       }
