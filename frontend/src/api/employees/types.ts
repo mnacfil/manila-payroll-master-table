@@ -10,6 +10,7 @@ export type Employee = {
   department: string;
   created_at: string;
   updated_at: string;
+  status?: "active" | "terminated";
 };
 
 export type CreateEmployeePayload = Omit<

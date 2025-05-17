@@ -32,7 +32,7 @@ const EmployeeForm = ({
     formState: { errors },
     reset,
     control,
-  } = useForm<Employee>({
+  } = useForm<Employee & { status: "active" | "terminated" }>({
     defaultValues: {
       date_hired: defaultData?.date_hired || "",
       email: defaultData?.email || "",
@@ -41,7 +41,11 @@ const EmployeeForm = ({
       salary: defaultData?.salary || "",
       position: defaultData?.position || "",
       department: defaultData?.department || "",
-      active: Number(defaultData?.active) || 1,
+      status: defaultData?.active
+        ? defaultData.active === 1
+          ? "active"
+          : "terminated"
+        : "active",
     },
   });
 
@@ -158,13 +162,13 @@ const EmployeeForm = ({
           </div>
 
           <Controller
-            name="active"
+            name="status"
             control={control}
             rules={{ required: "Status is required" }}
             render={({ field, fieldState }) => (
               <div className="space-y-1">
                 <label
-                  htmlFor="active"
+                  htmlFor="status"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Status*

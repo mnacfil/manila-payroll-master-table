@@ -27,9 +27,10 @@ export const deleteEmployee = async (id: string) => {
 };
 
 export const createEmployee = async (payload: CreateEmployeePayload) => {
+  const { status, ...realPayload } = payload;
   const body = {
-    ...payload,
-    active: Number(payload?.active),
+    ...realPayload,
+    active: status === "active" ? 1 : 0,
     date_hired: formatDateHired(payload.date_hired),
   };
   try {
@@ -61,8 +62,12 @@ export const createEmployee = async (payload: CreateEmployeePayload) => {
 
 export const updateEmployee = async ({ id, payload }: UpdateEmployeeParams) => {
   try {
+    const { status, ...realPayload } = payload;
     const body = {
-      ...payload,
+      ...realPayload,
+      ...(payload?.status && {
+        active: payload.status === "active" ? 1 : 0,
+      }),
       ...(payload.date_hired && {
         date_hired: formatDateHired(payload.date_hired),
       }),
