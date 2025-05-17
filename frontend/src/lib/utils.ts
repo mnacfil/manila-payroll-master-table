@@ -8,3 +8,12 @@ export const formatDate = (date: string | null) => {
   });
   return formattedDate;
 };
+
+export const formatSalary = (salary: number) => {
+  const formattedSalary = new Intl.NumberFormat("en-PH", {
+    style: "currency",
+    currency: "PHP",
+  }).format(salary);
+
+  return formattedSalary;
+};

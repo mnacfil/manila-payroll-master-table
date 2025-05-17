@@ -3,25 +3,42 @@
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { Button } from "primereact/button";
-import { ColumnProps } from "primereact/column";
+import {
+  ColumnFilterElementTemplateOptions,
+  ColumnProps,
+} from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useRef, useState } from "react";
 import Alert from "@/components/ui/alert";
 import { useEmployees } from "@/hooks/employees/useEmployees";
 import { Tag } from "primereact/tag";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatSalary } from "@/lib/utils";
 import { Employee } from "@/api/employees/types";
 import { Toast } from "primereact/toast";
 import Dialog from "@/components/ui/dialog";
 import EmployeeForm from "./employee-form";
 import Link from "next/link";
 import { PATHS } from "@/api/path";
+import { DataTableBaseProps } from "primereact/datatable";
+import { Dropdown } from "primereact/dropdown";
+
+const getSeverity = (status: number) => {
+  switch (status) {
+    case 1:
+      return "success";
+
+    case 0:
+      return "danger";
+  }
+};
+const statuses = [1, 0];
 
 type Props = {
   onSelectedEmployees: (employees: Employee[]) => void;
+  tableProps?: DataTableBaseProps<any>;
 };
 
-const EmployeesTable = ({ onSelectedEmployees }: Props) => {
+const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
@@ -29,42 +46,75 @@ const EmployeesTable = ({ onSelectedEmployees }: Props) => {
 
   const { isError, isPending, employees, deleteMutation } = useEmployees();
 
+  const StatusItemTemplate = (option: any) => {
+    return <Tag value={option} severity={getSeverity(option)} />;
+  };
+  const StatusRowFilterTemplate = ({
+    options,
+  }: {
+    options: ColumnFilterElementTemplateOptions;
+  }) => {
+    return (
+      <Dropdown
+        value={options.value}
+        options={statuses}
+        onChange={(e) => options.filterApplyCallback(e.value)}
+        itemTemplate={StatusItemTemplate}
+        placeholder="Select One"
+        className="p-column-filter"
+        showClear
+        style={{ minWidth: "12rem" }}
+      />
+    );
+  };
+  const StatusBodyTemplate = ({ rowData }: { rowData: Employee }) => {
+    return (
+      <Tag
+        value={rowData.active === 1 ? "Active" : "Not Active"}
+        severity={getSeverity(rowData.active)}
+      />
+    );
+  };
   const columns: ColumnProps[] = [
     {
       field: "first_name",
       header: "First Name",
+      filter: true,
     },
     {
       field: "last_name",
       header: "Last Name",
+      filter: true,
     },
     {
       field: "email",
       header: "Email",
+      filter: true,
     },
     {
       field: "date_hired",
       header: "Date Hired",
+      filter: true,
       body: (rowData: Employee) => {
         return <p>{formatDate(rowData?.date_hired)}</p>;
       },
     },
     {
-      field: "salary",
       header: "Salary",
+      filter: true,
+      body: (rowData: Employee) => {
+        return <p>{formatSalary(Number(rowData?.salary))}</p>;
+      },
     },
     {
       field: "active",
       header: "Status",
       align: "center",
-      body: (rowData: Employee) => {
-        return (
-          <Tag
-            severity={rowData?.active === 1 ? "success" : "danger"}
-            value={rowData?.active === 1 ? "Active" : "Terminated"}
-          ></Tag>
-        );
-      },
+      showFilterMenu: false,
+      filterMenuStyle: { width: "14rem" },
+      style: { minWidth: "12rem" },
+      filterElement: (options) => <StatusRowFilterTemplate options={options} />,
+      body: (rowData: Employee) => <StatusBodyTemplate rowData={rowData} />,
     },
     {
       header: "Action",
@@ -163,10 +213,11 @@ const EmployeesTable = ({ onSelectedEmployees }: Props) => {
       <Table
         data={employees || []}
         columns={columns}
-        dataKey="emp_id"
         onSelected={(list) => {
           onSelectedEmployees(list);
         }}
+        {...tableProps}
+        dataKey="emp_id"
       />
 
       <Dialog

@@ -6,7 +6,15 @@ import EmployeesView from "./_components/employees-view";
 const EmployeesPage = async () => {
   const queryClient = getQueryClient();
 
-  void queryClient.prefetchQuery(getEmployeesOptions());
+  try {
+    await queryClient.prefetchQuery({
+      ...getEmployeesOptions(),
+      staleTime: 60 * 1000,
+    });
+  } catch (error) {
+    console.error("Prefetch failed:", error);
+  }
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <EmployeesView />

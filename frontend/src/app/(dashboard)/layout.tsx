@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: Children) => {
     <div className="w-full min-h-screen">
       <div className="flex">
         {open && <DashboardSidebar otherClassName="hidden lg:block" />}
-        <div className="flex-1 h-screen bg-gray-50 p-6">
+        <div className="flex-1 h-full min-h-screen bg-gray-50 p-6 pt-0">
           <div className="flex items-center gap-8 my-5">
             <i
               className={"pi pi-bars cursor-pointer"}
@@ -57,7 +57,6 @@ const DashboardLayout = ({ children }: Children) => {
             ></i>
             <BreadCrumb
               model={breadcrumbItems}
-              // home={{ icon: "pi pi-home", command: () => router.push("/") }}
               home={{ icon: "pi pi-home" }}
               className="border-none bg-transparent"
             />

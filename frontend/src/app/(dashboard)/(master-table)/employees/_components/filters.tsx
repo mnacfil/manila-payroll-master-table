@@ -12,9 +12,9 @@ const Filters = () => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search..."
-        className="w-full"
+        className="w-full lg:w-[500px]"
       />
-      <Button label="Filter" />
+      <Button label="Filter" icon="pi pi-filter" outlined />
     </div>
   );
 };

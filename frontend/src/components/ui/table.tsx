@@ -2,7 +2,7 @@
 
 import { Employee } from "@/api/employees/types";
 import { Column, ColumnProps } from "primereact/column";
-import { DataTable } from "primereact/datatable";
+import { DataTable, DataTableBaseProps } from "primereact/datatable";
 import { useState } from "react";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   dataKey: string;
   mode?: "single" | "multiple";
   onSelected?: (list: Employee[]) => void;
-};
+} & DataTableBaseProps<any>;
 
 const Table = ({
   columns,
@@ -19,6 +19,7 @@ const Table = ({
   dataKey,
   onSelected,
   mode = "multiple",
+  ...otherProps
 }: Props) => {
   const [selected, setSelected] = useState([]);
   return (
@@ -39,6 +40,8 @@ const Table = ({
         onSelected?.(e.value);
         setSelected(e.value);
       }}
+      filterDisplay="menu"
+      {...otherProps}
     >
       {mode === "multiple" && (
         <Column

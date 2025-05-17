@@ -1,3 +1,5 @@
+import { FilterMatchMode, FilterOperator } from "primereact/api";
+
 export const DashboardLinks = [
   {
     title: "Master Table",
@@ -61,4 +63,36 @@ export const icons = [
     name: "Folder",
     code: "folder",
   },
+];
+
+export const employeeInitFilters = {
+  global: { value: "", matchMode: FilterMatchMode.CONTAINS },
+  first_name: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  last_name: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  email: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.CONTAINS }],
+  },
+  salary: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.STARTS_WITH }],
+  },
+  date_hired: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: "", matchMode: FilterMatchMode.STARTS_WITH }],
+  },
+};
+
+export const employeeGlobalFilterFields = [
+  "first_name",
+  "last_name",
+  "email",
+  "salary",
+  "date_hired",
 ];
