@@ -129,7 +129,15 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
-Runs on: http://localhost:3001
+4. Runs on: http://localhost:3001
+5. Click the ==My Employees button==
+
+- You will navigate to Manila Payroll dashbaord
+- Under ==Master Table==
+  - ==Employees== -> Manage Employees (you can perform CRUD operation)
+  - ==Group Tables== -> Manage groups (you can perform CRUD operation)
+  - Loan Accounts -> N/A
+  - Government Rates -> N/A
 
 ### Testing of backend api (POSTMAN)
 
