@@ -8,6 +8,7 @@ import {
   CreateGroupPayload,
   CreateGroupRes,
   DeleteGroupRes,
+  DeleteOptionParams,
   UpdateGroupRes,
   UpdateOptionParams,
   UpdateOptionRes,
@@ -157,6 +158,38 @@ export const updateGroupOption = async ({
     console.error("Error creating group option:", error);
     throw new Error(
       error instanceof Error ? error.message : "Failed to create group option"
+    );
+  }
+};
+
+export const deleteGroupOption = async ({
+  optionId,
+  groupId,
+}: DeleteOptionParams) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/${PATHS.GROUPS}/${groupId}/${PATHS.OPTIONS}/${optionId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      throw new Error(
+        errorData.message ||
+          `Server responded with status ${response.status}: ${response.statusText}`
+      );
+    }
+
+    const data: { success: boolean } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting group option:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to deleting group option"
     );
   }
 };

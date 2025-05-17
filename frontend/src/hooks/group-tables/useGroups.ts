@@ -5,12 +5,14 @@ import { getFirstGroupOptions, getGroupsOptions } from "./query-option";
 import {
   CreateGroupOptionPayload,
   CreateGroupPayload,
+  DeleteOptionParams,
   UpdateOptionParams,
 } from "@/api/group-tables/types";
 import {
   createGroup,
   createGroupOption,
   deleteGroup,
+  deleteGroupOption,
   updateGroup,
   updateGroupOption,
 } from "@/api/group-tables/mutations";
@@ -83,6 +85,15 @@ export const useGroups = () => {
     },
   });
 
+  const deleteOptionMutation = useMutation({
+    mutationFn: (params: DeleteOptionParams) => deleteGroupOption(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: groupTablesKeys.getGroups(),
+      });
+    },
+  });
+
   return {
     isPending,
     isError,
@@ -93,5 +104,6 @@ export const useGroups = () => {
     updateMutation,
     createOptionMutation,
     updateOptionMutation,
+    deleteOptionMutation,
   };
 };

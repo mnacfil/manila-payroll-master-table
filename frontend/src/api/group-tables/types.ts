@@ -61,3 +61,5 @@ export type UpdateOptionRes = {
   created_at: string;
   updated_at: string;
 };
+
+export type DeleteOptionParams = Omit<UpdateOptionParams, "payload">;

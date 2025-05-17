@@ -1,6 +1,8 @@
 import { Group, Option } from "@/api/group-tables/types";
+import Alert from "@/components/ui/alert";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
+import { useGroups } from "@/hooks/group-tables/useGroups";
 import { DEFAULT_GROUP_ICON } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
@@ -9,14 +11,28 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { useRef, useState } from "react";
 
 type Props = {
+  groupId: string;
   groups: Group[];
   onSelectTab: (group: Omit<Group, "options">) => void;
   onSelectOption: (option: Option) => void;
+  onSuccessCb: () => void;
+  onErrorCb: (error: Error) => void;
 };
 
-const GroupTable = ({ groups, onSelectTab, onSelectOption }: Props) => {
+const GroupTable = ({
+  groupId,
+  groups,
+  onSelectTab,
+  onSelectOption,
+  onSuccessCb,
+  onErrorCb,
+}: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selected, setSelected] = useState<Option | null>(null);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
+
+  const { deleteOptionMutation } = useGroups();
+
   const columns: ColumnProps[] = [
     {
       field: "code",
@@ -64,7 +80,7 @@ const GroupTable = ({ groups, onSelectTab, onSelectOption }: Props) => {
                     style={{ width: "8rem" }}
                     onClick={() => {
                       setSelected(rowData);
-                      // setOpenDeleteAlert(true);
+                      setOpenDeleteAlert(true);
                       if (op.current) {
                         op.current.hide();
                       }
@@ -119,6 +135,44 @@ const GroupTable = ({ groups, onSelectTab, onSelectOption }: Props) => {
           </TabPanel>
         ))}
       </TabView>
+
+      <Alert
+        visible={openDeleteAlert}
+        title="Are you absolutely sure?"
+        message={
+          <p>
+            This action will permanently delete
+            <strong>{` ${selected?.name} `}</strong> option. This action cannot
+            be undone.
+          </p>
+        }
+        onHide={() => {
+          setSelected(null);
+          setOpenDeleteAlert(false);
+        }}
+        onCancel={() => {
+          setSelected(null);
+          setOpenDeleteAlert(false);
+        }}
+        onContinue={() => {
+          if (selected) {
+            deleteOptionMutation.mutate(
+              { groupId, optionId: selected.id },
+              {
+                onSuccess: () => {
+                  setOpenDeleteAlert(false);
+                  onSuccessCb();
+                },
+                onError: (error) => {
+                  onErrorCb(error);
+                },
+              }
+            );
+            setSelected(null);
+            setOpenDeleteAlert(false);
+          }
+        }}
+      />
     </>
   );
 };

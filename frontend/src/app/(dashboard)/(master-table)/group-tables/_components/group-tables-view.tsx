@@ -87,11 +87,28 @@ const GroupTablesView = () => {
       </div>
       <Card className="px-3 border border-b-[1px] border-gray-100">
         <GroupTable
+          groupId={group.id}
           groups={groups}
           onSelectTab={(tab) => setGroup(tab)}
           onSelectOption={(option) => {
             setOpenGroupFormDialog(true);
             setGroupFormState({ mode: "edit", default: option });
+          }}
+          onErrorCb={(error) => {
+            toast.current?.show({
+              severity: "error",
+              summary: "Error",
+              detail: error?.message || "Failed to delete option",
+              life: 4000,
+            });
+          }}
+          onSuccessCb={() => {
+            toast.current?.show({
+              severity: "success",
+              summary: "Success",
+              detail: "Option deleted successfully",
+              life: 3000,
+            });
           }}
         />
       </Card>
@@ -187,6 +204,7 @@ const GroupTablesView = () => {
           />
         }
       />
+
       <Toast ref={toast} />
     </>
   );
