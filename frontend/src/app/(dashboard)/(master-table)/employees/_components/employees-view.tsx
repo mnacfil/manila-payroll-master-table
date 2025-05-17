@@ -12,10 +12,8 @@ import Alert from "@/components/ui/alert";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
-import {
-  employeeGlobalFilterFields,
-  employeeInitFilters,
-} from "@/lib/constant";
+import { employeeGlobalFilterFields } from "@/lib/constant";
+import { useEmployeesFilter } from "@/hooks/employees/useEmployeesFilter";
 
 type Props = {
   initialGroupIDs: {
@@ -29,24 +27,14 @@ const EmployeesView = ({ initialGroupIDs }: Props) => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openDeleteMultipleAlert, setOpenDeleteMultipleAlert] = useState(false);
   const [selectedEmployees, setSelectedEmployees] = useState<Employee[]>([]);
-  const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const [filters, setFilters] = useState(employeeInitFilters);
-  const { deleteMutation, deleteMultipleMutation } = useEmployees();
-
-  const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setGlobalFilterValue(value);
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      global: { ...prevFilters.global, value },
-    }));
-  };
-
-  const clearFilter = () => {
-    setGlobalFilterValue("");
-    setFilters(employeeInitFilters);
-  };
+  const { deleteMultipleMutation } = useEmployees();
+  const {
+    filters,
+    globalFilterValue,
+    clearFilter,
+    setFilters,
+    onGlobalFilterChange,
+  } = useEmployeesFilter();
 
   const renderHeader = () => {
     return (

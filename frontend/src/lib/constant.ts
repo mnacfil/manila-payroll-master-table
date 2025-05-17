@@ -129,3 +129,8 @@ export const groupInitFilters = {
 };
 
 export const groupGlobalFilterFields = ["code_id", "name", "description"];
+
+export const employeeStatus = [
+  { name: "Active", code: "1" },
+  { name: "Terminated", code: "0" },
+];

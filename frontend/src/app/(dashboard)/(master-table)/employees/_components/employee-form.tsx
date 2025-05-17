@@ -9,6 +9,7 @@ import { CreateEmployeePayload, Employee } from "@/api/employees/types";
 import { useEmployees } from "@/hooks/employees/useEmployees";
 import { Dropdown } from "primereact/dropdown";
 import { useGroups } from "@/hooks/group-tables/useGroups";
+import { employeeStatus } from "@/lib/constant";
 
 type Props = {
   mode?: "create" | "edit";
@@ -49,6 +50,7 @@ const EmployeeForm = ({
       salary: defaultData?.salary || "",
       position: defaultData?.position || "",
       department: defaultData?.department || "",
+      active: Number(defaultData?.active) || 1,
     },
   });
   const departments = deptOptions.map((dept) => ({
@@ -84,7 +86,6 @@ const EmployeeForm = ({
       );
     }
   };
-
   return (
     <>
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
@@ -134,28 +135,61 @@ const EmployeeForm = ({
           </div>
         </div>
 
-        <div className="space-y-1">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email*
-          </label>
-          <InputText
-            id="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
-              },
-            })}
-            className="w-full"
-            invalid={(errors?.email as any) || false}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email*
+            </label>
+            <InputText
+              id="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+              className="w-full"
+              invalid={(errors?.email as any) || false}
+            />
+            {errors.email && (
+              <p className="text-sm text-red-600">{errors.email.message}</p>
+            )}
+          </div>
+
+          <Controller
+            name="active"
+            control={control}
+            rules={{ required: "Status is required" }}
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                <label
+                  htmlFor="active"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Status*
+                </label>
+                <Dropdown
+                  value={field.value}
+                  options={employeeStatus}
+                  onChange={(e) => field.onChange(e.value)}
+                  placeholder={"Select status"}
+                  optionLabel="name"
+                  optionValue="code"
+                  className="w-full"
+                  invalid={(fieldState?.error as any) || false}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-600">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
+            )}
           />
-          {errors.email && (
-            <p className="text-sm text-red-600">{errors.email.message}</p>
-          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -166,7 +200,7 @@ const EmployeeForm = ({
             render={({ field, fieldState }) => (
               <div className="space-y-1">
                 <label
-                  htmlFor="date_hired"
+                  htmlFor="position"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Position*
@@ -196,7 +230,7 @@ const EmployeeForm = ({
             render={({ field, fieldState }) => (
               <div className="space-y-1">
                 <label
-                  htmlFor="date_hired"
+                  htmlFor="department"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Department*

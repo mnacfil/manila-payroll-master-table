@@ -1,5 +1,6 @@
 "use server";
 
+import { formatDateHired } from "@/lib/utils";
 import { apiConfig } from "../config";
 import { PATHS } from "../path";
 import {
@@ -28,8 +29,8 @@ export const deleteEmployee = async (id: string) => {
 export const createEmployee = async (payload: CreateEmployeePayload) => {
   const body = {
     ...payload,
-    active: 1,
-    date_hired: new Date(payload.date_hired).toISOString().split("T")[0],
+    active: Number(payload?.active),
+    date_hired: formatDateHired(payload.date_hired),
   };
   try {
     const response = await fetch(`${baseUrl}/${PATHS.EMPLOYEES}`, {
@@ -63,7 +64,7 @@ export const updateEmployee = async ({ id, payload }: UpdateEmployeeParams) => {
     const body = {
       ...payload,
       ...(payload.date_hired && {
-        date_hired: new Date(payload.date_hired).toISOString().split("T")[0],
+        date_hired: formatDateHired(payload.date_hired),
       }),
     };
 

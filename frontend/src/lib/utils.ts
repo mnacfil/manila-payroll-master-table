@@ -17,3 +17,7 @@ export const formatSalary = (salary: number) => {
 
   return formattedSalary;
 };
+
+export const formatDateHired = (dateHired: string) => {
+  return new Date(dateHired).toISOString().split("T")[0];
+};

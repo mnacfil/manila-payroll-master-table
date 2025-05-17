@@ -155,6 +155,7 @@ const EmployeesTable = ({
               op={op}
               content={
                 <div className="flex flex-col gap-1">
+                  <p className="mb-2">More Actions</p>
                   <Link href={`${PATHS.EMPLOYEES}/${rowData.emp_id}`}>
                     <Button
                       label="View"
@@ -162,6 +163,7 @@ const EmployeesTable = ({
                       severity="info"
                       text
                       style={{ width: "8rem" }}
+                      className="text-sm"
                       onClick={() => {
                         setSelected(rowData);
                         if (op.current) {
@@ -176,6 +178,7 @@ const EmployeesTable = ({
                     severity="success"
                     text
                     style={{ width: "8rem" }}
+                    className="text-sm"
                     onClick={() => {
                       setSelected(rowData);
                       setOpenEditDialog(true);
@@ -190,6 +193,7 @@ const EmployeesTable = ({
                     severity="danger"
                     text
                     style={{ width: "8rem" }}
+                    className="text-sm"
                     onClick={() => {
                       setSelected(rowData);
                       setOpenDeleteAlert(true);
