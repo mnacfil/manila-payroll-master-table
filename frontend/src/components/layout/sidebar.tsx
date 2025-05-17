@@ -16,7 +16,9 @@ const Sidebar = ({ otherClassName }: Props) => {
   const pathname = usePathname();
 
   return (
-    <aside className={`min-h-screen sticky w-[250px] ${otherClassName}`}>
+    <aside
+      className={`h-screen fixed top-0 left-0 z-10 w-[250px] shadow ${otherClassName}`}
+    >
       <div className="p-6 flex flex-col h-full ">
         <div className="text-2xl font-medium mb-5">Manila Payroll</div>
         <div className="overflow-y-auto w-full">
@@ -66,7 +68,7 @@ const Sidebar = ({ otherClassName }: Props) => {
             </ul>
           ))}
         </div>
-        <div className="mt-auto">footer</div>
+        <div className="mt-auto">Settings</div>
       </div>
     </aside>
   );

@@ -37,12 +37,17 @@ const DashboardLayout = ({ children }: Children) => {
       .split("/")
       .map((item) => ({ label: item, command: () => router.push(`/${item}`) })),
   ];
-
   return (
     <div className="w-full min-h-screen">
-      <div className="flex">
-        {open && <DashboardSidebar otherClassName="hidden lg:block" />}
-        <div className="flex-1 h-full min-h-screen bg-gray-50 p-6 pt-0">
+      <div className="flex h-full">
+        {open && isLargeScreen && (
+          <DashboardSidebar otherClassName="hidden lg:block" />
+        )}
+        <div
+          className={`flex-1 min- h-full  p-6 py-0 ${
+            open && isLargeScreen && "ml-[250px]"
+          }`}
+        >
           <div className="flex items-center gap-8 my-5">
             <i
               className={"pi pi-bars cursor-pointer"}
@@ -61,15 +66,16 @@ const DashboardLayout = ({ children }: Children) => {
               className="border-none bg-transparent"
             />
           </div>
-          <main className="h-full container py-8 mx-auto max-w-7xl">
+          <main className="h-full container  py-8 mx-auto max-w-7xl">
             {children}
           </main>
         </div>
       </div>
-      <div className="card flex justify-content-center">
+      <div className="flex justify-center">
         <Sidebar
           visible={visible}
           onHide={() => setVisible(false)}
+          className="w-[250px]"
           content={({ closeIconRef, hide }) => <DashboardSidebar />}
         ></Sidebar>
       </div>

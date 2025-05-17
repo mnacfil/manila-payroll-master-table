@@ -120,7 +120,6 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
     },
     {
       header: "Salary",
-      // filter: true,
       body: (rowData: Employee) => {
         return <p>{formatSalary(Number(rowData?.salary))}</p>;
       },
@@ -130,10 +129,7 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
       header: "Status",
       align: "center",
       sortable: true,
-      showFilterMenu: false,
-      filterMenuStyle: { width: "14rem" },
-      style: { minWidth: "12rem" },
-      filterElement: (options) => <StatusRowFilterTemplate options={options} />,
+      style: { minWidth: "9rem" },
       body: (rowData: Employee) => <StatusBodyTemplate rowData={rowData} />,
     },
     {
@@ -233,7 +229,7 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <Table
         data={employees || []}
         columns={columns}

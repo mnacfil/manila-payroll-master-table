@@ -56,7 +56,7 @@ const EmployeesView = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold">Employee Management</h1>
           <p className="text-gray-500">
@@ -84,7 +84,7 @@ const EmployeesView = () => {
         </div>
       </div>
 
-      <div className="mt-6 h-full py-10">
+      <div className="mt-6 h-full pb-6">
         <EmployeesTable
           onSelectedEmployees={setSelectedEmployees}
           tableProps={{
