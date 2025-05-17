@@ -130,3 +130,11 @@ npm run dev
 ```
 
 Runs on: http://localhost:3001
+
+### Testing of backend api (POSTMAN)
+
+Click this link to get the api endpoints: [Manila Payroll - Master Table Endpoints](ttps://.postman.co/workspace/OpenAI~35006fcd-3b8f-4b7e-8927-5ecddeac7381/collection/26397009-799f9920-9161-4b1c-a393-04a1f1749f36?action=share&creator=26397009)
+
+Or
+
+Download the ==manila-payroll.postman_collection== I included in my email
