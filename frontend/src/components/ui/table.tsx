@@ -40,7 +40,9 @@ const Table = ({
         onSelected?.(e.value);
         setSelected(e.value);
       }}
-      filterDisplay="menu"
+      // filterDisplay="row"
+      sortMode="single"
+      removableSort
       {...otherProps}
     >
       {mode === "multiple" && (
@@ -50,13 +52,8 @@ const Table = ({
           headerStyle={{ width: "3rem" }}
         ></Column>
       )}
-      {columns.map((item, i) => (
-        <Column
-          key={item.field}
-          field={item.field}
-          header={item.header}
-          body={item.body}
-        ></Column>
+      {columns.map((props, i) => (
+        <Column key={i} {...props}></Column>
       ))}
     </DataTable>
   );

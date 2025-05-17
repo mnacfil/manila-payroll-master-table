@@ -75,33 +75,56 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
       />
     );
   };
+  const DateFilterTemplate = ({
+    options,
+  }: {
+    options: ColumnFilterElementTemplateOptions;
+  }) => {
+    console.log(new Date(options.value));
+    return <></>;
+    // return (
+    //   // <Calendar
+    //   //   value={options.value}
+    //   //   onChange={(e) => options.filterCallback(e.value, options.index)}
+    //   //   dateFormat="mm/dd/yy"
+    //   //   placeholder="mm/dd/yyyy"
+    //   //   mask="99/99/9999"
+    //   // />
+    // );
+  };
+  const DateBodyTemplate = ({ rowData }: { rowData: Employee }) => {
+    return formatDate(rowData.date_hired);
+  };
   const columns: ColumnProps[] = [
     {
       field: "first_name",
       header: "First Name",
-      filter: true,
+      // filter: true,
+      sortable: true,
     },
     {
       field: "last_name",
       header: "Last Name",
-      filter: true,
+      // filter: true,
+      sortable: true,
     },
     {
       field: "email",
       header: "Email",
-      filter: true,
+      // filter: true,
+      sortable: true,
     },
     {
       field: "date_hired",
       header: "Date Hired",
-      filter: true,
-      body: (rowData: Employee) => {
-        return <p>{formatDate(rowData?.date_hired)}</p>;
-      },
+      dataType: "date",
+      // filter: true,
+      body: (rowData) => <DateBodyTemplate rowData={rowData} />,
+      filterElement: (options) => <DateFilterTemplate options={options} />,
     },
     {
       header: "Salary",
-      filter: true,
+      // filter: true,
       body: (rowData: Employee) => {
         return <p>{formatSalary(Number(rowData?.salary))}</p>;
       },
@@ -110,6 +133,7 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
       field: "active",
       header: "Status",
       align: "center",
+      sortable: true,
       showFilterMenu: false,
       filterMenuStyle: { width: "14rem" },
       style: { minWidth: "12rem" },
