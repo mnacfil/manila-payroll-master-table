@@ -21,9 +21,14 @@ import {
   updateGroupOption,
 } from "@/api/group-tables/mutations";
 import { groupTablesKeys } from "@/api/group-tables/groupKeys";
-import { DEPARTMENT_GRP_ID, POSITION_GRP_ID } from "@/lib/constant";
 
-export const useGroups = () => {
+export const useGroups = ({
+  deptId = "",
+  posId = "",
+}: {
+  deptId?: string;
+  posId?: string;
+}) => {
   const queryClient = useQueryClient();
   const {
     isPending,
@@ -32,12 +37,14 @@ export const useGroups = () => {
   } = useQuery(getGroupsOptions());
 
   const { data: firstGroup } = useQuery(getFirstGroupOptions());
-  const { data: deptOptions = [] } = useQuery(
-    getGroupsOptionsForSelect(DEPARTMENT_GRP_ID)
-  );
-  const { data: posOptions = [] } = useQuery(
-    getGroupsOptionsForSelect(POSITION_GRP_ID)
-  );
+  const { data: deptOptions = [] } = useQuery({
+    ...getGroupsOptionsForSelect(deptId),
+    enabled: !!deptId,
+  });
+  const { data: posOptions = [] } = useQuery({
+    ...getGroupsOptionsForSelect(posId),
+    enabled: !!posId,
+  });
 
   const createMutation = useMutation({
     mutationFn: (data: CreateGroupPayload) => createGroup(data),

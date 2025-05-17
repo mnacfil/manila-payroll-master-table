@@ -6,7 +6,6 @@ import { DEFAULT_GROUP_ICON, icons } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type Props = {
@@ -36,7 +35,7 @@ const GroupForm = ({
       icon: DEFAULT_GROUP_ICON,
     },
   });
-  const { createMutation, updateMutation } = useGroups();
+  const { createMutation, updateMutation } = useGroups({});
 
   const onSubmit = (values: any) => {
     if (mode === "create") {

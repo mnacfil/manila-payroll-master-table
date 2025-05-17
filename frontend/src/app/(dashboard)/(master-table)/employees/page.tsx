@@ -2,11 +2,16 @@ import { getEmployeesOptions } from "@/hooks/employees/query-options";
 import { getQueryClient } from "@/lib/react-query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import EmployeesView from "./_components/employees-view";
-import { DEPARTMENT_GRP_ID, ONE_MINUTE, POSITION_GRP_ID } from "@/lib/constant";
+import { ONE_MINUTE } from "@/lib/constant";
 import { getGroupsOptionsForSelect } from "@/hooks/group-tables/query-option";
+import { getGroups } from "@/api/group-tables/queries";
 
 const EmployeesPage = async () => {
   const queryClient = getQueryClient();
+  const groups = await getGroups();
+
+  const deptGroupId = groups[0]?.id || "";
+  const posGroupId = groups[1]?.id || "";
 
   try {
     await Promise.all([
@@ -15,11 +20,11 @@ const EmployeesPage = async () => {
         staleTime: ONE_MINUTE,
       }),
       queryClient.prefetchQuery({
-        ...getGroupsOptionsForSelect(DEPARTMENT_GRP_ID),
+        ...getGroupsOptionsForSelect(deptGroupId),
         staleTime: ONE_MINUTE,
       }),
       queryClient.prefetchQuery({
-        ...getGroupsOptionsForSelect(POSITION_GRP_ID),
+        ...getGroupsOptionsForSelect(posGroupId),
         staleTime: ONE_MINUTE,
       }),
     ]);
@@ -29,7 +34,9 @@ const EmployeesPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <EmployeesView />
+      <EmployeesView
+        initialGroupIDs={{ department: deptGroupId, position: posGroupId }}
+      />
     </HydrationBoundary>
   );
 };

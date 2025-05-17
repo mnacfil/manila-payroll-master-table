@@ -4,9 +4,8 @@ import GroupTablesView from "./_components/group-tables-view";
 import {
   getFirstGroupOptions,
   getGroupsOptions,
-  getGroupsOptionsForSelect,
 } from "@/hooks/group-tables/query-option";
-import { DEPARTMENT_GRP_ID, ONE_MINUTE, POSITION_GRP_ID } from "@/lib/constant";
+import { ONE_MINUTE } from "@/lib/constant";
 
 const GroupTablesPage = async () => {
   const queryClient = getQueryClient();

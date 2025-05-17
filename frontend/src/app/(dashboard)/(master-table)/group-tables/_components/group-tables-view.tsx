@@ -71,7 +71,7 @@ const GroupTablesView = () => {
   };
 
   const header = renderHeader();
-  const { isPending, isError, groups, firstGroup } = useGroups();
+  const { isPending, isError, groups, firstGroup } = useGroups({});
 
   const [group, setGroup] = useState<Omit<Group, "options">>({
     id: firstGroup?.id || "",
@@ -121,15 +121,6 @@ const GroupTablesView = () => {
           onClick={() => {
             setGroupFormState({ mode: "create", default: null });
             setOpenGroupFormDialog(true);
-          }}
-        />
-        <Button
-          label="Delete"
-          icon="pi pi-trash"
-          severity="danger"
-          onClick={() => {
-            // setGroupFormState({ mode: "create", default: null });
-            // setOpenGroupFormDialog(true);
           }}
         />
       </div>

@@ -2,7 +2,6 @@
 
 import {
   CreateGroupOptionRes,
-  CreateGroupRes,
   Group,
   Option,
   UpdateOptionRes,
@@ -41,7 +40,7 @@ const GroupOptionForm = ({
       description: mode === "edit" ? defaultGroupOption?.desciption : "",
     },
   });
-  const { createOptionMutation, updateOptionMutation } = useGroups();
+  const { createOptionMutation, updateOptionMutation } = useGroups({});
   const onSubmit = (values: any) => {
     if (mode === "create") {
       createOptionMutation.mutate(

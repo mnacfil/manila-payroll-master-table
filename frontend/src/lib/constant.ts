@@ -29,6 +29,7 @@ export const DashboardLinks = [
 ];
 
 export const ONE_MINUTE = 60 * 1000;
+export const DEFAULT_GROUPS = ["department", "position"];
 export const DEPARTMENT_GRP_ID = "97692a4a-3167-11f0-ac50-d345de8915cd";
 export const POSITION_GRP_ID = "830f7482-5499-499f-a8ec-cd04bcb26371";
 

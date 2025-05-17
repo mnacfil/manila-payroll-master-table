@@ -9,23 +9,30 @@ import { CreateEmployeePayload, Employee } from "@/api/employees/types";
 import { useEmployees } from "@/hooks/employees/useEmployees";
 import { Dropdown } from "primereact/dropdown";
 import { useGroups } from "@/hooks/group-tables/useGroups";
-import { GetGroupOptionsRes } from "@/api/group-tables/types";
 
 type Props = {
   mode?: "create" | "edit";
   defaultData?: Employee | null;
+  initialGroupIDs: {
+    department: string;
+    position: string;
+  };
   onSuccessCb?: () => void;
   onErrorCb?: (error: Error) => void;
 };
 
 const EmployeeForm = ({
   defaultData,
+  initialGroupIDs,
   onErrorCb,
   onSuccessCb,
   mode = "create",
 }: Props) => {
   const { createMutation, updateMutation } = useEmployees();
-  const { deptOptions, posOptions } = useGroups();
+  const { deptOptions, posOptions } = useGroups({
+    deptId: initialGroupIDs.department,
+    posId: initialGroupIDs.position,
+  });
 
   const {
     register,
@@ -40,8 +47,8 @@ const EmployeeForm = ({
       first_name: defaultData?.first_name || "",
       last_name: defaultData?.last_name || "",
       salary: defaultData?.salary || "",
-      position: "",
-      department: "",
+      position: defaultData?.position || "",
+      department: defaultData?.department || "",
     },
   });
   const departments = deptOptions.map((dept) => ({

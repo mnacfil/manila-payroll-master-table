@@ -17,7 +17,14 @@ import {
   employeeInitFilters,
 } from "@/lib/constant";
 
-const EmployeesView = () => {
+type Props = {
+  initialGroupIDs: {
+    department: string;
+    position: string;
+  };
+};
+
+const EmployeesView = ({ initialGroupIDs }: Props) => {
   const toast = useRef<Toast | null>(null);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openDeleteMultipleAlert, setOpenDeleteMultipleAlert] = useState(false);
@@ -98,6 +105,7 @@ const EmployeesView = () => {
 
       <div className="mt-6 h-full py-10">
         <EmployeesTable
+          initialGroupIDs={initialGroupIDs}
           onSelectedEmployees={setSelectedEmployees}
           tableProps={{
             header,
@@ -108,7 +116,6 @@ const EmployeesView = () => {
         />
       </div>
 
-      {/* Rest of your dialog and toast components remain the same */}
       <Dialog
         visible={openCreateDialog}
         position="center"
@@ -117,6 +124,7 @@ const EmployeesView = () => {
         onClose={() => setOpenCreateDialog(false)}
         renderedContent={
           <EmployeeForm
+            initialGroupIDs={initialGroupIDs}
             onSuccessCb={() => {
               setOpenCreateDialog(false);
               toast.current?.show({

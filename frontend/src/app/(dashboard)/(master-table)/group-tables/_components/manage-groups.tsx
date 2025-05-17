@@ -6,11 +6,7 @@ import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Table from "@/components/ui/table";
 import { useGroups } from "@/hooks/group-tables/useGroups";
-import {
-  DEFAULT_GROUP_ICON,
-  DEPARTMENT_GRP_ID,
-  POSITION_GRP_ID,
-} from "@/lib/constant";
+import { DEFAULT_GROUP_ICON, DEFAULT_GROUPS } from "@/lib/constant";
 import { Button } from "primereact/button";
 import { ColumnProps } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
@@ -29,7 +25,7 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const toast = useRef<Toast | null>(null);
-  const { deleteMutation } = useGroups();
+  const { deleteMutation } = useGroups({});
   const columns: ColumnProps[] = [
     {
       header: "Icon",
@@ -63,8 +59,8 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
                     severity="success"
                     text
                     style={{ width: "8rem" }}
-                    disabled={[DEPARTMENT_GRP_ID, POSITION_GRP_ID].includes(
-                      rowData?.id
+                    disabled={DEFAULT_GROUPS.includes(
+                      rowData?.title.toLowerCase()
                     )}
                     onClick={() => {
                       setSelected(rowData);
@@ -80,8 +76,8 @@ const ManageGroups = ({ groups, onCreate, onCancel }: Props) => {
                     severity="danger"
                     text
                     style={{ width: "8rem" }}
-                    disabled={[DEPARTMENT_GRP_ID, POSITION_GRP_ID].includes(
-                      rowData?.id
+                    disabled={DEFAULT_GROUPS.includes(
+                      rowData?.title.toLowerCase()
                     )}
                     onClick={() => {
                       setSelected(rowData);

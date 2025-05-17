@@ -34,11 +34,19 @@ const getSeverity = (status: number) => {
 const statuses = [1, 0];
 
 type Props = {
-  onSelectedEmployees: (employees: Employee[]) => void;
   tableProps?: DataTableBaseProps<any>;
+  initialGroupIDs: {
+    department: string;
+    position: string;
+  };
+  onSelectedEmployees: (employees: Employee[]) => void;
 };
 
-const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
+const EmployeesTable = ({
+  initialGroupIDs,
+  onSelectedEmployees,
+  tableProps = {},
+}: Props) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selected, setSelected] = useState<Employee | null>(null);
@@ -80,17 +88,7 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
   }: {
     options: ColumnFilterElementTemplateOptions;
   }) => {
-    console.log(new Date(options.value));
     return <></>;
-    // return (
-    //   // <Calendar
-    //   //   value={options.value}
-    //   //   onChange={(e) => options.filterCallback(e.value, options.index)}
-    //   //   dateFormat="mm/dd/yy"
-    //   //   placeholder="mm/dd/yyyy"
-    //   //   mask="99/99/9999"
-    //   // />
-    // );
   };
   const DateBodyTemplate = ({ rowData }: { rowData: Employee }) => {
     return formatDate(rowData.date_hired);
@@ -99,19 +97,16 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
     {
       field: "first_name",
       header: "First Name",
-      // filter: true,
       sortable: true,
     },
     {
       field: "last_name",
       header: "Last Name",
-      // filter: true,
       sortable: true,
     },
     {
       field: "email",
       header: "Email",
-      // filter: true,
       sortable: true,
     },
     {
@@ -128,7 +123,6 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
       field: "date_hired",
       header: "Date Hired",
       dataType: "date",
-      // filter: true,
       body: (rowData) => <DateBodyTemplate rowData={rowData} />,
       filterElement: (options) => <DateFilterTemplate options={options} />,
     },
@@ -266,6 +260,7 @@ const EmployeesTable = ({ onSelectedEmployees, tableProps = {} }: Props) => {
         renderedContent={
           <>
             <EmployeeForm
+              initialGroupIDs={initialGroupIDs}
               mode="edit"
               defaultData={selected}
               onSuccessCb={() => {
